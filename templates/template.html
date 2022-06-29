@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{#    <p>{{ name }}</p>#}
+    {% if name %}
+        <p>this is a new page</p>
+    {% endif %}
+{#<form method="post">#}
+{#    <label for="test">some text</label>#}
+{#    <input id="test" name="test" type="text">#}
+{#    <button type="submit">submit</button>#}
+
+{#</form>#}
+    {% import "bootstrap/wtf.html" as wtf %}
+    {% if form %}
+        {{ wtf.quick_form(form) }}
+    {% endif %}
+
+    {% if main_page %}
+        {% for h in href %}
+            {{ h|safe }}
+        {% endfor %}
+    {% endif %}
+    {% if article %}
+        <p>{{ article.content}}</p>
+    {% endif %}
+{% endblock %}
