@@ -1,0 +1,38 @@
+{% extends 'hexo/home_base.html' %}
+
+{% block post_preview %}
+    {% for article, url in zip(article_list, url_list) %}
+        <div class="post-preview">
+                    <div class="layout-top">
+                        <h5 class="post-subtitle">{{ article.subtitle }}
+                            <span class="post-meta">{{ article.post_time }}<i class="fa fa-bookmark"></i></span>
+                        </h5>
+                    </div>
+
+                    <div class="layout-bottom">
+                        <div class="post-content-container">
+                            <a href="{{ url }}">
+                                <h2 class="post-title">{{ article.title }}</h2>
+                                <div class="post-content">
+                                    <img src="image/cat.jpg" class="post-header-img">
+                                    <p class="post-excerpt">{{ abstract(article.content) }}</p>
+                                </div>
+                            </a>
+
+                            <div class="tags">
+                                {% for tag in article.tags %}
+                                <a href="{{ tag.url }}" class="tag">{{ tag.name }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="post-author">
+                            <h4>Author</h4>
+                            <h5>Lazy Cat</h5>
+                            <img src="image/cat.jpg" class=" img-circle"
+                                 style="width: 40px;margin-bottom: 15px;">
+                            <p><a href="#"><span><i class="fa fa-link"></i></span></a></p>
+                        </div>
+                    </div>
+        </div>
+    {% endfor %}
+{% endblock %}
