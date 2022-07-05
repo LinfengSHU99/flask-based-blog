@@ -1,3 +1,6 @@
+base_url = ''
+
+
 class Config:
     content1 = 'The term model is used when referring to the persistent entities used by the application.\
 In the context of an ORM, a model is typically a Python'

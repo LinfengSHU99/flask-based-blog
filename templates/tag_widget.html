@@ -1,0 +1,11 @@
+{% macro tagWidget(tag_list) %}
+<div class="tagWidget"
+     style="margin-top: 55px;">
+    <h3 style="text-align: center;">Tags</h3>
+    <div class="tag">
+        {% for tag in tag_list %}
+        <a href="{{ tag.url }}">{{ tag.name }}</a>
+        {% endfor %}
+    </div>
+</div>
+{% endmacro %}

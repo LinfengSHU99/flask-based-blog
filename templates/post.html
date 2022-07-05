@@ -4,7 +4,7 @@
     <div class="post-heading">
         <div class="tags">
             {% for tag in article.tags %}
-            <a class="tag" href="#" title="">
+            <a class="tag" href="{{ base_url + tag.url }}" title="">
                 {{ tag.name }}
             </a>
             {% endfor %}

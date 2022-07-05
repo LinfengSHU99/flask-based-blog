@@ -12,14 +12,14 @@
 
         <div class="layout-bottom">
             <div class="post-content-container">
-                <a href="">
+                <a href="{{base_url + '/article/' + str(article.id)}}">
                     <h2 class="post-title">{{ article.title }}</h2>
                 </a>
 
                 <div class="post-list-tags">
                     <span><i class="fa fa-tag"></i></span>
                     {% for tag in article.tags %}
-                    <a href="{{ tag.url }}" class="tag">{{ tag.name }}</a>
+                    <a href="{{ base_url + tag.url }}" class="tag">{{ tag.name }}</a>
                     {% endfor %}
                 </div>
             </div>

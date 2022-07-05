@@ -1,4 +1,6 @@
 <!doctype html>
+{% from 'tag_widget.html' import tagWidget %}
+{% from 'category_widget.html' import categoryWidget %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -164,265 +166,63 @@
 
 
                 <!-- pager -->
+            {% block pager %}
                 <ul class="pager">
                     <li class="previous"><a href="#">&larr; Older</a></li>
                     <li class="next"><a href="#">Newer &rarr;</a></li>
                 </ul>
+            {% endblock %}
             </div>
             <!-- Sidebar container-->
             <div class="    col-lg-3 col-lg-offset-0     col-md-3 col-md-offset-0     col-sm-12    col-xs-12    sidebar-container">
                 <!-- categoryWidget -->
-                <div class="categoryWidget">
-                    <h3 style="text-align: center;">Categories</h3>
-                    <div id="accordion">
-                        <div class="panel">
-                            <div class="category">
-                                <span><i class="fa fa-angle-double-right"></i></span>
-                                <a class="categoryName" data-toggle="collapse" data-parent="#accordion"
-                                   href="#collapseOne">
-                                    <h5>javascript</h5>
-                                </a>
-                                <a class="categoryCount" href="javascript:;">
-                                    <h5>(50)</h5>
-                                </a>
-                            </div>
-                            <div class="collapse" id="collapseOne">
-                                <ul>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="categoryName">
-                                            <h5>svg (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="categoryName">
-                                            <h5> webWorker (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="categoryName">
-                                            <h5>three.js (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="categoryName">
-                                            <h5>webGl (50)</h5>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="panel">
-                            <div class="category">
-                                <span><i class="fa fa-angle-double-right"></i></span>
-                                <a class="categoryName" data-toggle="collapse" data-parent="#accordion"
-                                   href="#collapse2">
-                                    <h5>网页设计</h5>
-                                </a>
-                                <a class="categoryCount" href="javascript:;">
-                                    <h5>(50)</h5>
-                                </a>
-                            </div>
-                            <div class="collapse" id="collapse2">
-                                <ul>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="categoryName">
-                                            <h5>svg (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="categoryName">
-                                            <h5> webWorker (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="categoryName">
-                                            <h5>three.js (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="categoryName">
-                                            <h5>webGl (50)</h5>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="panel">
-                            <div class="category">
-                                <span><i class="fa fa-angle-double-right"></i></span>
-                                <a class="categoryName" data-toggle="collapse" data-parent="#accordion"
-                                   href="#collapseOne">
-                                    <h5>javascript</h5>
-                                </a>
-                                <a class="categoryCount" href="javascript:;">
-                                    <h5>(50)</h5>
-                                </a>
-                            </div>
-                            <div class="collapse" id="collapseOne">
-                                <ul>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="categoryName">
-                                            <h5>svg (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="categoryName">
-                                            <h5> webWorker (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="categoryName">
-                                            <h5>three.js (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="categoryName">
-                                            <h5>webGl (50)</h5>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="panel">
-                            <div class="category">
-                                <span><i class="fa fa-angle-double-right"></i></span>
-                                <a class="categoryName" data-toggle="collapse" data-parent="#accordion"
-                                   href="#collapse2">
-                                    <h5>网页设计</h5>
-                                </a>
-                                <a class="categoryCount" href="javascript:;">
-                                    <h5>(50)</h5>
-                                </a>
-                            </div>
-                            <div class="collapse" id="collapse2">
-                                <ul>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="categoryName">
-                                            <h5>svg (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="categoryName">
-                                            <h5> webWorker (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="categoryName">
-                                            <h5>three.js (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="categoryName">
-                                            <h5>webGl (50)</h5>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="panel">
-                            <div class="category">
-                                <span><i class="fa fa-angle-double-right"></i></span>
-                                <a class="categoryName" data-toggle="collapse" data-parent="#accordion"
-                                   href="#collapseOne">
-                                    <h5>javascript</h5>
-                                </a>
-                                <a class="categoryCount" href="javascript:;">
-                                    <h5>(50)</h5>
-                                </a>
-                            </div>
-                            <div class="collapse" id="collapseOne">
-                                <ul>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="categoryName">
-                                            <h5>svg (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="categoryName">
-                                            <h5> webWorker (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="categoryName">
-                                            <h5>three.js (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="categoryName">
-                                            <h5>webGl (50)</h5>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="panel">
-                            <div class="category">
-                                <span><i class="fa fa-angle-double-right"></i></span>
-                                <a class="categoryName" data-toggle="collapse" data-parent="#accordion"
-                                   href="#collapse2">
-                                    <h5>网页设计</h5>
-                                </a>
-                                <a class="categoryCount" href="javascript:;">
-                                    <h5>(50)</h5>
-                                </a>
-                            </div>
-                            <div class="collapse" id="collapse2">
-                                <ul>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="categoryName">
-                                            <h5>svg (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="categoryName">
-                                            <h5> webWorker (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="categoryName">
-                                            <h5>three.js (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="categoryName">
-                                            <h5>webGl (50)</h5>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+               {{ categoryWidget(category_list) }}
+{#                <div class="categoryWidget">#}
+{#                    <h3 style="text-align: center;">Categories</h3>#}
+{#                    <div id="accordion">#}
+{#                        <div class="panel">#}
+{#                            <div class="category">#}
+{#                                <span><i class="fa fa-angle-double-right"></i></span>#}
+{#                                <a class="categoryName" data-toggle="collapse" data-parent="#accordion"#}
+{#                                   href="#collapseOne">#}
+{#                                    <h5>javascript</h5>#}
+{#                                </a>#}
+{#                                <a class="categoryCount" href="javascript:;">#}
+{#                                    <h5>(50)</h5>#}
+{#                                </a>#}
+{#                            </div>#}
+{#                            <div class="collapse" id="collapseOne">#}
+{#                                <ul>#}
+{#                                    <li>#}
+{#                                        <span><i class="fa fa-angle-right"></i></span>#}
+{#                                        <a href="javascript:;" class="categoryName">#}
+{#                                            <h5>svg (50)</h5>#}
+{#                                        </a>#}
+{#                                    </li>#}
+{#                                    <li>#}
+{#                                        <span><i class="fa fa-angle-right"></i></span>#}
+{#                                        <a href="javascript:;" class="categoryName">#}
+{#                                            <h5> webWorker (50)</h5>#}
+{#                                        </a>#}
+{#                                    </li>#}
+{#                                    <li>#}
+{#                                        <span><i class="fa fa-angle-right"></i></span>#}
+{#                                        <a href="javascript:;" class="categoryName">#}
+{#                                            <h5>three.js (50)</h5>#}
+{#                                        </a>#}
+{#                                    </li>#}
+{#                                    <li>#}
+{#                                        <span><i class="fa fa-angle-right"></i></span>#}
+{#                                        <a href="javascript:;" class="categoryName">#}
+{#                                            <h5>webGl (50)</h5>#}
+{#                                        </a>#}
+{#                                    </li>#}
+{#                                </ul>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{##}
+{#                </div>#}
 
                 <!-- archieveWidget -->
                 <div class="archieveWidget">
@@ -518,209 +318,14 @@
                             </div>
                         </div>
 
-                        <div class="panel">
-                            <div class="archieve">
-                                <span><i class="fa fa-angle-double-right"></i></span>
-                                <a class="archieveName" data-toggle="collapse" data-parent="#archieve"
-                                   href="#2016">
-                                    <h5>2016</h5>
-                                </a>
-                                <a class="archieveCount" href="javascript:;">
-                                    <h5>(50)</h5>
-                                </a>
-                            </div>
-                            <div class="collapse" id="2016">
-                                <ul>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>January (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>February (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>March (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>April (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>May (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>June (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>July(50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>August (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>September (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>October (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>November (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>December (50)</h5>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
 
-                        <div class="panel">
-                            <div class="archieve">
-                                <span><i class="fa fa-angle-double-right"></i></span>
-                                <a class="archieveName" data-toggle="collapse" data-parent="#archieve"
-                                   href="#2015">
-                                    <h5>2015</h5>
-                                </a>
-                                <a class="archieveCount" href="javascript:;">
-                                    <h5>(50)</h5>
-                                </a>
-                            </div>
-                            <div class="collapse" id="2015">
-                                <ul>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>January (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>February (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>March (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>April (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>May (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>June (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>July(50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>August (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>September (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>October (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>November (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>December (50)</h5>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+
+
                     </div>
                 </div>
 
                 <!-- tagWidget -->
-                <div class="tagWidget"
-                     style="margin-top: 55px;">
-                    <h3 style="text-align: center;">Tags</h3>
-                    <div class="tag">
-                        <a href="#">hexo</a>
-                        <a href="#">javascript</a>
-                        <a href="#">svg</a>
-                        <a href="#">timer</a>
-                        <a href="#">asp.net</a>
-                        <a href="#">mvc</a>
-                        <a href="#">工作</a>
-                        <a href="#">生活</a>
-                        <a href="#">人性的弱点</a>
-                        <a href="#">timer</a>
-                        <a href="#">asp.net</a>
-                        <a href="#">mvc</a>
-                        <a href="#">工作</a>
-                        <a href="#">生活</a>
-                        <a href="#">人性的弱点</a>
-                    </div>
-
-                </div>
+                {{ tagWidget(tag_list) }}
             </div>
         </div>
     </div>

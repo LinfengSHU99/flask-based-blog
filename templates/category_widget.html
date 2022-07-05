@@ -1,0 +1,58 @@
+{% macro categoryWidget(category_list) %}
+<div class="categoryWidget">
+
+    <h3 style="text-align: center;">Categories</h3>
+    <div id="accordion">
+        {% for category in category_list %}
+        <div class="panel">
+            <div class="category">
+{#                <span><i class="fa fa-angle-double-right"></i></span>#}
+                <a class="categoryName"
+                   href="{{ base_url + '/category/' + category.name }}">
+                    <h5>{{ category.name }}</h5>
+                </a>
+                <a class="categoryCount" href="javascript:;">
+                    <h5>({{ len(list(category.article))}})</h5>
+                </a>
+            </div>
+{#            <div class="collapse" id="collapseOne">#}
+{#                <ul>#}
+{#                    <li>#}
+{#                        <span><i class="fa fa-angle-right"></i></span>#}
+{#                        <a href="javascript:;" class="categoryName">#}
+{#                            <h5>svg (50)</h5>#}
+{#                        </a>#}
+{#                    </li>#}
+{#                    <li>#}
+{#                        <span><i class="fa fa-angle-right"></i></span>#}
+{#                        <a href="javascript:;" class="categoryName">#}
+{#                            <h5> webWorker (50)</h5>#}
+{#                        </a>#}
+{#                    </li>#}
+{#                    <li>#}
+{#                        <span><i class="fa fa-angle-right"></i></span>#}
+{#                        <a href="javascript:;" class="categoryName">#}
+{#                            <h5>three.js (50)</h5>#}
+{#                        </a>#}
+{#                    </li>#}
+{#                    <li>#}
+{#                        <span><i class="fa fa-angle-right"></i></span>#}
+{#                        <a href="javascript:;" class="categoryName">#}
+{#                            <h5>webGl (50)</h5>#}
+{#                        </a>#}
+{#                    </li>#}
+{#                </ul>#}
+{#            </div>#}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endmacro %}
+
+
+
+
+
+
+
+
