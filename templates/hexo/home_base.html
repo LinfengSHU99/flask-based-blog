@@ -1,6 +1,7 @@
 <!doctype html>
 {% from 'tag_widget.html' import tagWidget %}
 {% from 'category_widget.html' import categoryWidget %}
+{% from 'archiveWidget.html' import archieveWidget %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -225,104 +226,101 @@
 {#                </div>#}
 
                 <!-- archieveWidget -->
-                <div class="archieveWidget">
-                    <h3 style="text-align: center;">Archieves</h3>
-
-                    <div id="archieve">
-                        <div class="panel">
-                            <div class="archieve">
-                                <span><i class="fa fa-angle-double-right"></i></span>
-                                <a class="archieveName" data-toggle="collapse" data-parent="#archieve"
-                                   href="#2017">
-                                    <h5>2017</h5>
-                                </a>
-                                <a class="archieveCount" href="javascript:;">
-                                    <h5>(50)</h5>
-                                </a>
-                            </div>
-                            <div class="collapse" id="2017">
-                                <ul>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>January (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>February (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>March (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>April (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>May (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>June (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>July(50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>August (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>September (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>October (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>November (50)</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span><i class="fa fa-angle-right"></i></span>
-                                        <a href="javascript:;" class="archieveName">
-                                            <h5>December (50)</h5>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-
-
-
-                    </div>
-                </div>
+                {{ archiveWidget(year_list) }}
+{#                <div class="archieveWidget">#}
+{#                    <h3 style="text-align: center;">Archieves</h3>#}
+{##}
+{#                    <div id="archieve">#}
+{#                        <div class="panel">#}
+{#                            <div class="archieve">#}
+{#                                <span><i class="fa fa-angle-double-right"></i></span>#}
+{#                                <a class="archieveName" data-toggle="collapse" data-parent="#archieve"#}
+{#                                   href="#2017">#}
+{#                                    <h5>2017</h5>#}
+{#                                </a>#}
+{#                                <a class="archieveCount" href="javascript:;">#}
+{#                                    <h5>(50)</h5>#}
+{#                                </a>#}
+{#                            </div>#}
+{#                            <div class="collapse" id="2017">#}
+{#                                <ul>#}
+{#                                    <li>#}
+{#                                        <span><i class="fa fa-angle-right"></i></span>#}
+{#                                        <a href="javascript:;" class="archieveName">#}
+{#                                            <h5>January (50)</h5>#}
+{#                                        </a>#}
+{#                                    </li>#}
+{#                                    <li>#}
+{#                                        <span><i class="fa fa-angle-right"></i></span>#}
+{#                                        <a href="javascript:;" class="archieveName">#}
+{#                                            <h5>February (50)</h5>#}
+{#                                        </a>#}
+{#                                    </li>#}
+{#                                    <li>#}
+{#                                        <span><i class="fa fa-angle-right"></i></span>#}
+{#                                        <a href="javascript:;" class="archieveName">#}
+{#                                            <h5>March (50)</h5>#}
+{#                                        </a>#}
+{#                                    </li>#}
+{#                                    <li>#}
+{#                                        <span><i class="fa fa-angle-right"></i></span>#}
+{#                                        <a href="javascript:;" class="archieveName">#}
+{#                                            <h5>April (50)</h5>#}
+{#                                        </a>#}
+{#                                    </li>#}
+{#                                    <li>#}
+{#                                        <span><i class="fa fa-angle-right"></i></span>#}
+{#                                        <a href="javascript:;" class="archieveName">#}
+{#                                            <h5>May (50)</h5>#}
+{#                                        </a>#}
+{#                                    </li>#}
+{#                                    <li>#}
+{#                                        <span><i class="fa fa-angle-right"></i></span>#}
+{#                                        <a href="javascript:;" class="archieveName">#}
+{#                                            <h5>June (50)</h5>#}
+{#                                        </a>#}
+{#                                    </li>#}
+{#                                    <li>#}
+{#                                        <span><i class="fa fa-angle-right"></i></span>#}
+{#                                        <a href="javascript:;" class="archieveName">#}
+{#                                            <h5>July(50)</h5>#}
+{#                                        </a>#}
+{#                                    </li>#}
+{#                                    <li>#}
+{#                                        <span><i class="fa fa-angle-right"></i></span>#}
+{#                                        <a href="javascript:;" class="archieveName">#}
+{#                                            <h5>August (50)</h5>#}
+{#                                        </a>#}
+{#                                    </li>#}
+{#                                    <li>#}
+{#                                        <span><i class="fa fa-angle-right"></i></span>#}
+{#                                        <a href="javascript:;" class="archieveName">#}
+{#                                            <h5>September (50)</h5>#}
+{#                                        </a>#}
+{#                                    </li>#}
+{#                                    <li>#}
+{#                                        <span><i class="fa fa-angle-right"></i></span>#}
+{#                                        <a href="javascript:;" class="archieveName">#}
+{#                                            <h5>October (50)</h5>#}
+{#                                        </a>#}
+{#                                    </li>#}
+{#                                    <li>#}
+{#                                        <span><i class="fa fa-angle-right"></i></span>#}
+{#                                        <a href="javascript:;" class="archieveName">#}
+{#                                            <h5>November (50)</h5>#}
+{#                                        </a>#}
+{#                                    </li>#}
+{#                                    <li>#}
+{#                                        <span><i class="fa fa-angle-right"></i></span>#}
+{#                                        <a href="javascript:;" class="archieveName">#}
+{#                                            <h5>December (50)</h5>#}
+{#                                        </a>#}
+{#                                    </li>#}
+{#                                </ul>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
 
                 <!-- tagWidget -->
                 {{ tagWidget(tag_list) }}

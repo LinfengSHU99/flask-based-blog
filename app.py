@@ -1,6 +1,6 @@
 import datetime
 
-from flask import Flask, render_template, session, request, redirect, current_app
+from flask import Flask, render_template, session, request, redirect, current_app, g
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
@@ -9,7 +9,8 @@ from flask_sqlalchemy import SQLAlchemy
 from config import Config, base_url
 
 # from CustomFunc import CustomFunc
-
+def numOfArticle():
+    pass
 app = Flask(__name__)
 # session['page'] = 1
 bootstrap = Bootstrap(app)
@@ -26,7 +27,9 @@ app.jinja_env.globals['base_url'] = base_url
 from Database import Database
 Database()
 db = SQLAlchemy(app)
-
+@app.before_first_request
+def init_tag_category_archive():
+    g.tag_list = tag_list = Tag.query.all()
 
 class NameForm(FlaskForm):
     name = StringField("name?")
@@ -53,6 +56,8 @@ class Article(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
     content = db.Column(db.Text())
     tags = db.relationship('Tag', secondary=article_tag, backref=db.backref('tag', lazy='dynamic'), lazy='dynamic')
+    year = db.Column(db.String(10))
+    month = db.Column(db.String(10))
 
 
 # article_category = db.Table('article_category', db.Column('article_id', db.Integer, db.ForeignKey('article.id')),
@@ -65,12 +70,13 @@ class Category(db.Model):
     article = db.relationship('Article', backref='category')
     name = db.Column(db.String(64))
 
+
 db.drop_all()
 db.create_all()
-a1 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1',  )
-a2 = Article(title='another test', content=Config.content2, post_time=datetime.time(), subtitle='another test',  )
-a3 = Article(title='another another test', content=Config.content2, post_time=datetime.time(), subtitle='another another test',)
-a4 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1',  )
+a1 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1',year='2020', month='Jan' )
+a2 = Article(title='another test', content=Config.content2, post_time=datetime.time(), subtitle='another test', year='2020',month='Feb' )
+a3 = Article(title='another another test', content=Config.content2, post_time=datetime.time(), subtitle='another another test', year='2020',month='Jan')
+a4 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1', year='2021', month='Feb')
 a5 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1',  )
 a6 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1',  )
 a7 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1',  )
@@ -108,17 +114,6 @@ def abstract(content):
 @app.route(base_url + '/page/<n>')
 @app.route(base_url + '/', methods=['GET', 'POST'])
 def index(n=1):
-    # name = ''
-    # form = NameForm()
-    # if request.method == 'POST':
-        # print(request.get_data())
-        # print(request.form[1])
-        # name = request.get_data()
-    # if form.validate_on_submit():
-    #     name = form.name.data
-    #     form.name.data = ''
-    #     redirect('/' + name)
-    # return render_template('template.html', name=name, form=form)
     n = int(n)
     session['index_page'] = n
     article_list_t = Article.query.order_by(Article.id).all()
@@ -131,7 +126,6 @@ def index(n=1):
     for a in article_list:
         url_list.append('/article/{0}'.format(a.id))
 
-    # return render_template('main_page.html', zip_list=zip(article_list, href))
     return render_template('home.html', article_list=article_list,
                            abstract=abstract, tag_list=tag_list, category_list=category_list)
 
