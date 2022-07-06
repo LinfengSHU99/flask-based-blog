@@ -9,3 +9,14 @@
 
 ### Next movement:
 
+
+## 2022/07/06
+### Finished:
+1. tag, category, archive widget are functioning now.  
+2. Added some functions to make code more compact.
+3. Added an init function which will be called before the first response to set up some global state, 
+and reduce the frequency of query.
+
+### Next movement: 
+1. Add an administrator's page to post contents. 
+

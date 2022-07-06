@@ -8,9 +8,28 @@ import os
 from flask_sqlalchemy import SQLAlchemy
 from config import Config, base_url
 
+
 # from CustomFunc import CustomFunc
 def numOfArticle():
     pass
+
+
+def monthOfYear(year):
+    return list(set([article.month for article in current_app.article_all if article.year == year]))
+
+
+def articleOfMonthYear(month, year):
+    return [article for article in current_app.article_all if article.year == year and article.month == month]
+
+
+def articleOfTag(tagname) -> list:
+    return [article for article in current_app.article_all if tagname in [tag.name for tag in article.tags]]
+
+
+def articleOfCategory(name) -> list:
+    return list([category.article for category in current_app.category_list if category.name == name][0])
+
+
 app = Flask(__name__)
 # session['page'] = 1
 bootstrap = Bootstrap(app)
@@ -19,17 +38,35 @@ app.jinja_env.globals['zip'] = zip
 app.jinja_env.globals['len'] = len
 app.jinja_env.globals['list'] = list
 app.jinja_env.globals['base_url'] = base_url
+app.jinja_env.globals['monthOfYear'] = monthOfYear
+app.jinja_env.globals['articleOfMonthYear'] = articleOfMonthYear
 # app.jinja_env.globals['page'] = page
 # CustomFunc(app)
 # app.config['SECRET_KEY'] = '?'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Kanade123@localhost:3306/blog'
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 from Database import Database
+
 Database()
 db = SQLAlchemy(app)
+
+
 @app.before_first_request
 def init_tag_category_archive():
-    g.tag_list = tag_list = Tag.query.all()
+    current_app.tag_list = Tag.query.all()
+    current_app.article_all = Article.query.order_by(Article.id).all()
+    current_app.category_list = Category.query.all()
+    year_list_t = list(set([article.year for article in current_app.article_all if article.year is not None]))
+
+    # [[year,[month,num_of_article], [month, num_of_article]], [year, [month, num_of_article]]]
+    current_app.year_month_list = [[year] for year in year_list_t]
+    for year_month_list in current_app.year_month_list:
+        year_month_list.extend(monthOfYear(year_month_list[0]))
+    for year_month in current_app.year_month_list:
+        for i in range(1, len(year_month)):
+            year_month[i] = [year_month[i]]
+            year_month[i].append(len(articleOfMonthYear(year_month[i][0], year_month[0])))
+
 
 class NameForm(FlaskForm):
     name = StringField("name?")
@@ -55,7 +92,7 @@ class Article(db.Model):
     post_time = db.Column(db.Time())
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
     content = db.Column(db.Text())
-    tags = db.relationship('Tag', secondary=article_tag, backref=db.backref('tag', lazy='dynamic'), lazy='dynamic')
+    tags = db.relationship('Tag', secondary=article_tag, backref=db.backref('tag', ), )
     year = db.Column(db.String(10))
     month = db.Column(db.String(10))
 
@@ -73,20 +110,24 @@ class Category(db.Model):
 
 db.drop_all()
 db.create_all()
-a1 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1',year='2020', month='Jan' )
-a2 = Article(title='another test', content=Config.content2, post_time=datetime.time(), subtitle='another test', year='2020',month='Feb' )
-a3 = Article(title='another another test', content=Config.content2, post_time=datetime.time(), subtitle='another another test', year='2020',month='Jan')
-a4 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1', year='2021', month='Feb')
-a5 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1',  )
-a6 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1',  )
-a7 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1',  )
-a8 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1',  )
-a9 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1',  )
-a10 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1',  )
-a11 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1',  )
-a12 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1',  )
-a13 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1',  )
-a14 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1',  )
+a1 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1', year='2020',
+             month='Jan')
+a2 = Article(title='another test', content=Config.content2, post_time=datetime.time(), subtitle='another test',
+             year='2020', month='Feb')
+a3 = Article(title='another another test', content=Config.content2, post_time=datetime.time(),
+             subtitle='another another test', year='2020', month='Jan')
+a4 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1', year='2021',
+             month='Feb')
+a5 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1', )
+a6 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1', )
+a7 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1', )
+a8 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1', )
+a9 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1', )
+a10 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1', )
+a11 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1', )
+a12 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1', )
+a13 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1', )
+a14 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1', )
 t1 = Tag(name='tag1', url='/tag/' + 'tag1')
 t2 = Tag(name='tag2', url='/tag/' + 'tag2')
 c1 = Category(name='category1')
@@ -103,6 +144,7 @@ a3.tags.append(t2)
 db.session.add_all([a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14])
 db.session.commit()
 
+
 def abstract(content):
     if len(content) < 300:
         return content
@@ -110,24 +152,24 @@ def abstract(content):
         return content[:300] + '......'
 
 
-
 @app.route(base_url + '/page/<n>')
 @app.route(base_url + '/', methods=['GET', 'POST'])
 def index(n=1):
     n = int(n)
     session['index_page'] = n
-    article_list_t = Article.query.order_by(Article.id).all()
+    article_list_t = current_app.article_all
     session['max_page'] = len(article_list_t) // 5
-    article_list = article_list_t[5 * n - 5: n * 5]
+    article_list_page = article_list_t[5 * n - 5: n * 5]
 
     url_list = []
-    tag_list = Tag.query.all()
-    category_list = Category.query.all()
-    for a in article_list:
-        url_list.append('/article/{0}'.format(a.id))
-
-    return render_template('home.html', article_list=article_list,
-                           abstract=abstract, tag_list=tag_list, category_list=category_list)
+    # tag_list = Tag.query.all()
+    # category_list = Category.query.all()
+    # for a in article_list:
+    #     url_list.append('/article/{0}'.format(a.id))
+    # print(current_app.year_month_list)
+    return render_template('home.html', article_list=article_list_page,
+                           abstract=abstract, tag_list=current_app.tag_list, category_list=current_app.category_list,
+                           year_month_list=current_app.year_month_list)
 
 
 # @app.route(base_url + '/page/' + '<n>')
@@ -139,21 +181,21 @@ def route_to_article(id):
     return render_template('post.html', article=a)
 
 
+@app.route(base_url + '/archive/<year>/<month>')
 @app.route(base_url + '/category/<category_name>')
 @app.route(base_url + '/tag/<tagname>')
-def articles_of_tag(tagname=None, category_name=None):
-    article_all = Article.query.all()
+def articles_of_tag(tagname=None, category_name=None, year=None, month=None):
     # search for articles whose tags have the tag named <tagname>
     article_list = []
-    category_list = Category.query.all()
-    category = Category.query.filter_by(name = category_name).first()
+    # category_list = Category.query.all()
+    category = Category.query.filter_by(name=category_name).first()
     if tagname is not None:
-        article_list = [article for article in article_all if tagname in [tag.name for tag in article.tags]]
+        article_list = articleOfTag(tagname)
     elif category_name is not None:
-        article_list = list(category.article)
-    tag_list = Tag.query.all()
-    return render_template('catalog.html', article_list=article_list, tag_list=tag_list, category_list=category_list)
-
-
-
-
+        # article_list = list(category.article)
+        article_list = articleOfCategory(category_name)
+    elif year is not None and month is not None:
+        article_list = articleOfMonthYear(month, year)
+    # tag_list = Tag.query.all()
+    return render_template('catalog.html', article_list=article_list, tag_list=current_app.tag_list,
+                           category_list=current_app.category_list, year_month_list=current_app.year_month_list)
