@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+{% block head %}
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="懒猫">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="image/cat.jpg">
+    <title>
+    </title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="{{bootstrap_find_resource('css/bootstrap.css', cdn='bootstrap')}}">
+
+    <!-- Custom Fonts -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!--<link rel="stylesheet" href="source/css/typo.css">-->
+    <link rel="stylesheet" href="{{ url_for('.static', filename='css/style.css') }}">
+
+    <style>
+        .intro-header {
+            background-image: url('image/cat.jpg')
+        }
+    </style>
+
+    <header class="intro-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                    <div class="site-heading">
+                        <h1>Lazy Cat</h1>
+                        <span class="subheading">努力把每一件平凡的事情做好</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock %}
+    <!-- Navigation -->
+{% block nav %}
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="">Lazy Cat</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <!-- Known Issue, found by Hux:
+                <nav>'s height woule be hold on by its content.
+                so, when navbar scale out, the <nav> will cover tags.
+                also mask any touch event of tags, unfortunately.
+            -->
+            <div id="huxblog_navbar">
+                <div class="navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">PORTFOLIO</a></li>
+                        <li><a href="#">About</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+{% endblock %}
+    {% block container %}
+    {% endblock %}
+<!-- Footer -->
+{% block footer %}
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+
+                        <li>
+                            <a target="_blank" href="http://git.oschina.net">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                            </a>
+                        </li>
+
+                    </ul>
+                    <p class="copyright text-muted">
+                        Copyright &copy; Lazy Cat 2017
+                        <br>
+                        Theme by <a href="http://beantech.org/">Bean Tech</a>
+                        <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                        re-Ported by <a href="http://mmczgd.oschina.io/">Lazy Cat</a>
+                        <br>
+                        <a href="{{ base_url + '/post' }}">Admin</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+{% endblock %}
+<!-- jQuery -->
+    <script src="{{ url_for('.static', filename='js/jquery.js') }}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ url_for('.static', filename='js/bootstrap.js') }}"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="{{ url_for('.static', filename='js/script.js') }}"></script>
+</head>

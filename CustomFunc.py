@@ -1,4 +1,11 @@
 from flask import current_app
+from bs4 import BeautifulSoup
+def abstract(content):
+    soup = BeautifulSoup(content)
+    mytag = soup.mytag
+    s = mytag.get_text()
+    return s
+
 class custom_func:
     def str(self, x):
         return str(x)
@@ -22,3 +29,6 @@ class CustomFunc(object):
         return {
             'custom_func': current_app.extensions['custom_func']
         }
+
+
+

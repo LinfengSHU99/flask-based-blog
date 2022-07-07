@@ -2,14 +2,17 @@ import datetime
 
 from flask import Flask, render_template, session, request, redirect, current_app, g
 from flask_bootstrap import Bootstrap
-from flask_wtf import FlaskForm
+from flask_wtf import FlaskForm, Form
 from wtforms import StringField, SubmitField
+from flask_pagedown import PageDown
+from flask_pagedown.fields import PageDownField
 import os
 from flask_sqlalchemy import SQLAlchemy
 from config import Config, base_url
+import markdown
+from CustomFunc import abstract
 
 
-# from CustomFunc import CustomFunc
 def numOfArticle():
     pass
 
@@ -33,6 +36,7 @@ def articleOfCategory(name) -> list:
 app = Flask(__name__)
 # session['page'] = 1
 bootstrap = Bootstrap(app)
+pagedown = PageDown(app)
 app.jinja_env.globals['str'] = str
 app.jinja_env.globals['zip'] = zip
 app.jinja_env.globals['len'] = len
@@ -40,6 +44,7 @@ app.jinja_env.globals['list'] = list
 app.jinja_env.globals['base_url'] = base_url
 app.jinja_env.globals['monthOfYear'] = monthOfYear
 app.jinja_env.globals['articleOfMonthYear'] = articleOfMonthYear
+app.jinja_env.globals['abstract'] = abstract
 # app.jinja_env.globals['page'] = page
 # CustomFunc(app)
 # app.config['SECRET_KEY'] = '?'
@@ -68,6 +73,10 @@ def init_tag_category_archive():
             year_month[i].append(len(articleOfMonthYear(year_month[i][0], year_month[0])))
 
 
+class MarkDownForm(FlaskForm):
+    pagedown = PageDownField('Enter your markdown')
+    submit = SubmitField('Submit')
+
 class NameForm(FlaskForm):
     name = StringField("name?")
     submit = SubmitField('submit')
@@ -92,7 +101,7 @@ class Article(db.Model):
     post_time = db.Column(db.Time())
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
     content = db.Column(db.Text())
-    tags = db.relationship('Tag', secondary=article_tag, backref=db.backref('tag', ), )
+    tags = db.relationship('Tag', secondary=article_tag, backref=db.backref('tag', ), lazy='immediate')
     year = db.Column(db.String(10))
     month = db.Column(db.String(10))
 
@@ -145,13 +154,6 @@ db.session.add_all([a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14]
 db.session.commit()
 
 
-def abstract(content):
-    if len(content) < 300:
-        return content
-    else:
-        return content[:300] + '......'
-
-
 @app.route(base_url + '/page/<n>')
 @app.route(base_url + '/', methods=['GET', 'POST'])
 def index(n=1):
@@ -168,7 +170,7 @@ def index(n=1):
     #     url_list.append('/article/{0}'.format(a.id))
     # print(current_app.year_month_list)
     return render_template('home.html', article_list=article_list_page,
-                           abstract=abstract, tag_list=current_app.tag_list, category_list=current_app.category_list,
+                            tag_list=current_app.tag_list, category_list=current_app.category_list,
                            year_month_list=current_app.year_month_list)
 
 
@@ -178,7 +180,7 @@ def index(n=1):
 def route_to_article(id):
     print(id)
     a = Article.query.filter_by(id=id).first()
-    return render_template('post.html', article=a)
+    return render_template('article.html', article=a)
 
 
 @app.route(base_url + '/archive/<year>/<month>')
@@ -199,3 +201,13 @@ def articles_of_tag(tagname=None, category_name=None, year=None, month=None):
     # tag_list = Tag.query.all()
     return render_template('catalog.html', article_list=article_list, tag_list=current_app.tag_list,
                            category_list=current_app.category_list, year_month_list=current_app.year_month_list)
+
+
+@app.route(base_url + '/post', methods=['GET', 'POST'])
+def route_to_post():
+    data = None
+    form = MarkDownForm()
+    if form.validate_on_submit():
+        data = form.pagedown.data
+        print(data)
+    return render_template('post.html', form=form)

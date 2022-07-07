@@ -6,8 +6,8 @@ body {
     color: #404040;
     overflow-x: hidden;
 }
-
-ul, ol {
+/*不要加ol，否则不显示数字序号*/
+ul{
     list-style: none;
 }
 
