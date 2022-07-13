@@ -1,39 +1,43 @@
 {% import 'bootstrap/wtf.html' as wtf %}
-{% extends 'bootstrap/base.html' %}
+{% extends 'hexo/base.html' %}
 {% block head %}
     {{ super() }}
     {{ pagedown.html_head() }}
 {% endblock %}
 {% block title %}Flasky{% endblock %}
-{% block navbar %}
-<div class="navbar
-navbar-inverse" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle
-                    navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">Flasky</a>
-        </div>
-        <div class="navbar-collapse
-collapse">
-            <ul class="nav
-navbar-nav">
-                <li><a href="/">Home</a></li>
-            </ul>
-        </div>
-    </div>
-</div>
-{% endblock %}
-{% block content %}
+
+{% block container %}
 {#    {{ wtf.quick_form(form) }}#}
-    <form method="post">
+    <form style="text-align: center" method="POST">
         {{ form.hidden_tag() }}
-        {{ form.pagedown(rows=10) }}
+        {{ form.title.label }}
+        {{ form.title() }}
+    <br>
+        {{ form.subtitle.label }}
+        {{ form.subtitle() }}
+    <br>
+        {{ form.pagedown.label }}
+        {{ form.pagedown(rows=20, cols=50) }}
+    <br>
+        {{ form.category.label }}
+        {{ form.category(list='category_') }}
+        <datalist id="category_">
+            {% for category in category_name %}
+            <option>{{ category }}</option>
+            {% endfor %}
+        </datalist>
+    <br>
+        {{ form.tag.label }}
+        {{ form.tag(list='tag_') }}
+        <datalist id="tag_">
+            {% for tag in tag_name %}
+            <option>{{ tag }}</option>
+            {% endfor %}
+        </datalist>
+        <br>
+        {{ form.password.label }}
+        {{ form.password() }}
+    <br>
         {{ form.submit }}
     </form>
 <div class="container">

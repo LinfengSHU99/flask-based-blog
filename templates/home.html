@@ -5,7 +5,7 @@
     <div class="post-preview">
         <div class="layout-top">
             <h5 class="post-subtitle">{{ article.subtitle }}
-                <span class="post-meta">{{ article.post_time }}<i class="fa fa-bookmark"></i></span>
+                <span class="post-meta">{{ article.post_time.ctime() }}</span>
             </h5>
         </div>
 
@@ -21,7 +21,7 @@
 
                 <div class="tags">
                     {% for tag in article.tags %}
-                    <a href="{{ base_url + tag.url }}" class="tag">{{ tag.name }}</a>
+                    <a href="{{ base_url + '/tag/' + tag.name }}" class="tag">{{ tag.name }}</a>
                     {% endfor %}
                 </div>
             </div>
@@ -44,7 +44,7 @@
     <li class="previous"><a href="{{ base_url + '/page/' + str(session['index_page'] - 1 if session['index_page'] - 1 > 0 else 1)  }}">&larr; Previous Page</a></li>
 {% endif %}
 
-{% if session['index_page'] <= session['max_page'] %}
+{% if session['index_page'] < session['max_page'] %}
     <li class="next"><a href="{{ base_url + '/page/' + str(session['index_page'] + 1) }}">Next Page &rarr;</a></li>
 {% endif %}
 </ul>

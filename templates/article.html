@@ -4,7 +4,7 @@
     <div class="post-heading">
         <div class="tags">
             {% for tag in article.tags %}
-            <a class="tag" href="{{ base_url + tag.url }}" title="">
+            <a class="tag" href="{{ base_url + '/tag/' + tag.name }}" title="">
                 {{ tag.name }}
             </a>
             {% endfor %}
@@ -12,7 +12,7 @@
         <h2>{{ article.title }}</h2>
         <h2 class="subheading">{{ article.subtitle }}</h2>
         <span class="meta">
-                Posted by Lazy Cat on 2017-03-26
+                Posted by LinFengSHU at {{ article.post_time.ctime() }}
         </span>
     </div>
 

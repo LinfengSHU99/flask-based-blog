@@ -1,13 +1,15 @@
 import datetime
-
+import time
 from flask import Flask, render_template, session, request, redirect, current_app, g
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm, Form
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, SelectField, PasswordField
+from wtforms.validators import DataRequired, InputRequired
 from flask_pagedown import PageDown
 from flask_pagedown.fields import PageDownField
 import os
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
 from config import Config, base_url
 import markdown
 from CustomFunc import abstract
@@ -74,7 +76,12 @@ def init_tag_category_archive():
 
 
 class MarkDownForm(FlaskForm):
-    pagedown = PageDownField('Enter your markdown')
+    title = StringField('Title of the article', validators=[DataRequired()])
+    subtitle = StringField('Subtitle of the article')
+    category = StringField('Chose the category', validators=[DataRequired()])
+    tag = StringField('Chose the tag', validators=[DataRequired()])
+    password = PasswordField('Input the token', validators=[DataRequired()])
+    pagedown = PageDownField('Enter your markdown', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 class NameForm(FlaskForm):
@@ -98,7 +105,7 @@ class Article(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(64))
     subtitle = db.Column(db.String(64))
-    post_time = db.Column(db.Time())
+    post_time = db.Column(db.DateTime())
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
     content = db.Column(db.Text())
     tags = db.relationship('Tag', secondary=article_tag, backref=db.backref('tag', ), lazy='immediate')
@@ -113,34 +120,40 @@ class Article(db.Model):
 class Category(db.Model):
     __tablename__ = 'category'
     id = db.Column(db.Integer, primary_key=True)
-    article = db.relationship('Article', backref='category')
+    article = db.relationship('Article', backref='category', lazy='immediate')
     name = db.Column(db.String(64))
 
+class Password(db.Model):
+    __tablename__ = 'password'
+    id = db.Column(db.Integer, primary_key=True)
+    password = db.Column(db.String(64))
+    password_hash = db.Column(db.String(300))
 
 db.drop_all()
 db.create_all()
-a1 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1', year='2020',
+a1 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.now(), subtitle='test1', year='2020',
              month='Jan')
-a2 = Article(title='another test', content=Config.content2, post_time=datetime.time(), subtitle='another test',
+a2 = Article(title='another test', content=Config.content2, post_time=datetime.datetime.now(), subtitle='another test',
              year='2020', month='Feb')
-a3 = Article(title='another another test', content=Config.content2, post_time=datetime.time(),
+a3 = Article(title='another another test', content=Config.content2, post_time=datetime.datetime.now(),
              subtitle='another another test', year='2020', month='Jan')
-a4 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1', year='2021',
+a4 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.now(), subtitle='test1', year='2021',
              month='Feb')
-a5 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1', )
-a6 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1', )
-a7 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1', )
-a8 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1', )
-a9 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1', )
-a10 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1', )
-a11 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1', )
-a12 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1', )
-a13 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1', )
-a14 = Article(title='test1', content=Config.content1, post_time=datetime.time(), subtitle='test1', )
+a5 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.now(), subtitle='test1', )
+a6 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.now(), subtitle='test1', )
+a7 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.now(), subtitle='test1', )
+a8 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.now(), subtitle='test1', )
+a9 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.now(), subtitle='test1', )
+a10 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.now(), subtitle='test1', )
+a11 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.now(), subtitle='test1', )
+a12 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.now(), subtitle='test1', )
+a13 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.now(), subtitle='test1', )
+a14 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.now(), subtitle='test1', )
 t1 = Tag(name='tag1', url='/tag/' + 'tag1')
 t2 = Tag(name='tag2', url='/tag/' + 'tag2')
 c1 = Category(name='category1')
 c2 = Category(name='category2')
+p1 = Password(password='Kanade123', password_hash=generate_password_hash('Kanade123'))
 a1.category = c1
 a2.category = c1
 a3.category = c2
@@ -150,9 +163,12 @@ a1.tags.append(t1)
 a2.tags.append(t2)
 a3.tags.append(t1)
 a3.tags.append(t2)
-db.session.add_all([a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14])
+db.session.add_all([a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, p1, c1, c2, t1, t2])
+for a in Article.query.all():
+    a.year = a.post_time.year
+    a.month = a.post_time.month
 db.session.commit()
-
+# db.session.close()
 
 @app.route(base_url + '/page/<n>')
 @app.route(base_url + '/', methods=['GET', 'POST'])
@@ -160,12 +176,12 @@ def index(n=1):
     n = int(n)
     session['index_page'] = n
     article_list_t = current_app.article_all
-    session['max_page'] = len(article_list_t) // 5
+    session['max_page'] = len(article_list_t) / 5
     article_list_page = article_list_t[5 * n - 5: n * 5]
 
     url_list = []
     # tag_list = Tag.query.all()
-    # category_list = Category.query.all()
+    # category_list = Category.query.all()G
     # for a in article_list:
     #     url_list.append('/article/{0}'.format(a.id))
     # print(current_app.year_month_list)
@@ -207,7 +223,36 @@ def articles_of_tag(tagname=None, category_name=None, year=None, month=None):
 def route_to_post():
     data = None
     form = MarkDownForm()
+    category_name = [c.name for c in Category.query.all()]
+    tag_name = [tag.name for tag in Tag.query.all()]
+    # print(category_name)
+    # print([tag.name for tag in Tag.query.all()])
+    # print(current_app.tag_list)
     if form.validate_on_submit():
-        data = form.pagedown.data
-        print(data)
-    return render_template('post.html', form=form)
+        print('here')
+        password = form.password.data
+        content = form.pagedown.data
+        content  = '<mytag>' + content + '</mytag>'
+        title = form.title.data
+        subtitle = form.subtitle.data
+        tag = form.tag.data
+        category = form.category.data
+        if check_password_hash(Password.query.all()[0].password_hash, password):
+            print('correct')
+            a = Article(title=title, content=content, post_time=datetime.datetime.now(), subtitle=subtitle, )
+            if tag not in [t.name for t in current_app.tag_list]:
+                t = Tag(name=tag)
+            else:
+                t = [tag_ for tag_ in current_app.tag_list if tag_.name == tag][0]
+            if category not in [c.name for c in current_app.category_list]:
+                c = Category(name=category)
+            else:
+                c = [c for c in current_app.category_list if c.name == category][0]
+            a.category = c
+            a.tags.append(t)
+            db.session.add_all([a,t,c])
+            db.session.commit()
+        init_tag_category_archive()
+        print('success')
+        return "success"
+    return render_template('post.html', form=form, category_name=category_name, tag_name=tag_name)

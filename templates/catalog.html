@@ -6,7 +6,7 @@
     <div class=" post-list">
         <div class="layout-top">
             <h5 class="post-subtitle">
-                November 20, 2016 <i class="fa fa-bookmark"></i>
+                {{ article.post_time.ctime() }} <i class="fa fa-bookmark"></i>
             </h5>
         </div>
 
@@ -19,7 +19,7 @@
                 <div class="post-list-tags">
                     <span><i class="fa fa-tag"></i></span>
                     {% for tag in article.tags %}
-                    <a href="{{ base_url + tag.url }}" class="tag">{{ tag.name }}</a>
+                    <a href="{{ base_url + '/tag/' + tag.name}}" class="tag">{{ tag.name }}</a>
                     {% endfor %}
                 </div>
             </div>
