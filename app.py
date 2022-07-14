@@ -54,7 +54,7 @@ app.jinja_env.globals['abstract'] = abstract
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 from Database import Database
 
-Database()
+Database(app)
 db = SQLAlchemy(app)
 
 
@@ -170,6 +170,7 @@ for a in Article.query.all():
 db.session.commit()
 # db.session.close()
 
+
 @app.route(base_url + '/page/<n>')
 @app.route(base_url + '/', methods=['GET', 'POST'])
 def index(n=1):
@@ -256,3 +257,8 @@ def route_to_post():
         print('success')
         return "success"
     return render_template('post.html', form=form, category_name=category_name, tag_name=tag_name)
+
+
+@app.route(base_url + '/about')
+def about():
+    pass
