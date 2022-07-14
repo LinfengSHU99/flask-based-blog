@@ -12,7 +12,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from . import main
-from form import MarkDownForm
+from .form import MarkDownForm
 from ..database import Article, Tag, Category, Password, db
 from ..config import base_url
 
@@ -20,6 +20,12 @@ def numOfArticle():
     pass
 
 
+def articleOfMonthYear(month, year):
+    return [article for article in current_app.article_all if article.year == year and article.month == month]
+
+
+def monthOfYear(year):
+    return list(set([article.month for article in current_app.article_all if article.year == year]))
 
 
 def articleOfTag(tagname) -> list:
@@ -30,7 +36,7 @@ def articleOfCategory(name) -> list:
     return list([category.article for category in current_app.category_list if category.name == name][0])
 
 
-@main.before_first_request
+@main.before_app_first_request
 def init_tag_category_archive():
     current_app.tag_list = Tag.query.all()
     current_app.article_all = Article.query.order_by(Article.id).all()

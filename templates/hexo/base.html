@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!--<link rel="stylesheet" href="source/css/typo.css">-->
-    <link rel="stylesheet" href="{{ url_for('.static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
     <style>
         .intro-header {
@@ -113,11 +113,11 @@
     </footer>
 {% endblock %}
 <!-- jQuery -->
-    <script src="{{ url_for('.static', filename='js/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="{{ url_for('.static', filename='js/bootstrap.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
 
     <!-- Custom Theme JavaScript -->
-    <script src="{{ url_for('.static', filename='js/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </head>
