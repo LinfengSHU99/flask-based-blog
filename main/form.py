@@ -1,7 +1,6 @@
-from flask_wtf import FlaskForm, Form
-from wtforms import StringField, SubmitField, SelectField, PasswordField
-from wtforms.validators import DataRequired, InputRequired
-from flask_pagedown import PageDown
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField, PasswordField
+from wtforms.validators import DataRequired
 from flask_pagedown.fields import PageDownField
 
 

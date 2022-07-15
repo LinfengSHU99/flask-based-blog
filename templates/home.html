@@ -14,7 +14,7 @@
                 <a href="{{ base_url + '/article/' + str(article.id) }}">
                     <h2 class="post-title">{{ article.title }}</h2>
                     <div class="post-content">
-                        <img src="image/cat.jpg" class="post-header-img">
+                        <img src="{{ url_for('static', filename='gargantua.png') }}" class="post-header-img">
                         <p class="post-excerpt">{{ abstract(article.content) }}</p>
                     </div>
                 </a>
@@ -27,8 +27,8 @@
             </div>
             <div class="post-author">
                 <h4>Author</h4>
-                <h5>Lazy Cat</h5>
-                <img src="image/cat.jpg" class=" img-circle"
+                <h5>Linfeng SHU</h5>
+                <img src="{{ url_for('static', filename='gargantua.png') }}" class=" img-circle"
                      style="width: 40px;margin-bottom: 15px;">
                 <p><a href="#"><span><i class="fa fa-link"></i></span></a></p>
             </div>
@@ -39,15 +39,27 @@
 
 
 {% block pager %}
-<ul class="pager">
-{% if session['index_page'] > 1 %}
-    <li class="previous"><a href="{{ base_url + '/page/' + str(session['index_page'] - 1 if session['index_page'] - 1 > 0 else 1)  }}">&larr; Previous Page</a></li>
-{% endif %}
-
-{% if session['index_page'] < session['max_page'] %}
-    <li class="next"><a href="{{ base_url + '/page/' + str(session['index_page'] + 1) }}">Next Page &rarr;</a></li>
-{% endif %}
-</ul>
+<div class="text-center">
+    <ul class="pagination center">
+    {% if session['index_page'] > 1 %}
+        <li class="page-item"><a href="{{ base_url + '/page/' + str(session['index_page'] - 1 if session['index_page'] - 1 > 0 else 1)  }}">&larr; Previous</a></li>
+    {% else %}
+        <li class="page-item"><a href="#">Previous</a> </li>
+    {% endif %}
+    {% for i in range(int(session['max_page']) + 1) %}
+        {% if i + 1 == session['index_page'] %}
+            <li class="page-item active"><a class="page-link" href="#">{{ i + 1 }}</a></li>
+        {% else %}
+            <li class="page-item"><a class="page-link" href="{{ base_url + '/page/' + str(i + 1) }}">{{ i + 1 }}</a></li>
+        {% endif %}
+    {% endfor %}
+    {% if session['index_page'] < session['max_page'] %}
+        <li class="page-item"><a href="{{ base_url + '/page/' + str(session['index_page'] + 1) }}">Next &rarr;</a></li>
+        {% else %}
+        <li class="page-item"><a href="#">Next</a> </li>
+    {% endif %}
+    </ul>
+</div>
 {% endblock %}
 
 {#{% block tag_widget %}#}

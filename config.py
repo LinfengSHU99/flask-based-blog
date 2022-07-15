@@ -41,6 +41,8 @@ well as a set of helper classes and functions that are used</mytag>'
         app.jinja_env.globals['zip'] = zip
         app.jinja_env.globals['len'] = len
         app.jinja_env.globals['list'] = list
+        app.jinja_env.globals['int'] = int
+        app.jinja_env.globals['range'] = range
         app.jinja_env.globals['base_url'] = base_url
         app.jinja_env.globals['monthOfYear'] = monthOfYear
         app.jinja_env.globals['articleOfMonthYear'] = articleOfMonthYear
