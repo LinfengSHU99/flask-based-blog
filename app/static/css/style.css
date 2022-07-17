@@ -106,6 +106,16 @@ a:focus {
         font-size: 80px;
     }
 }
+.intro-header .my_profile {
+    width: 80px;
+    margin-bottom: 25px;
+}
+@media only screen and (min-width: 768px) {
+    .intro-header .my_profile {
+        width: 160px;
+        margin-bottom: 40px;
+    }
+}
 .intro-header .post-heading h1 {
     font-size: 30px;
     margin-bottom: 24px;
@@ -458,10 +468,29 @@ footer .copyright a:focus {
 .pager li > a {
     border-radius: 999em;
 }
-
-
-
-
+.pagination li > a {
+    color: grey;
+}
+.pagination li > a:hover,
+.pagination li > a:focus {
+    color: rgb(230, 97, 140);
+}
+.pagination > li > a:hover,
+.pagination > li > a:focus{
+  color: rgb(230, 97, 140);
+  /*background-color: #eee;*/
+  /*border-color: #ddd;*/
+}
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+  color: rgb(230, 97, 140);
+  background-color: lightgrey;
+  border-color: lightgrey;
+}
 
 /*-----------------------分类widget------------------------*/
 

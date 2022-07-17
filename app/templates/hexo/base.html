@@ -8,8 +8,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="description" content="懒猫">
     <meta name="keyword" content="">
-    <link rel="shortcut icon" href="image/cat.jpg">
+    <link rel="shortcut icon" href="../../static/gargantua.png">
     <title>
+        Linfeng SHU's blog
     </title>
 
     <!-- Bootstrap Core CSS -->
@@ -23,7 +24,7 @@
 
     <style>
         .intro-header {
-            background-image: url('image/cat.jpg')
+            background-image: url('../../static/star1.jpg')
         }
     </style>
 
@@ -33,6 +34,8 @@
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
                     <div class="site-heading">
+                        <img src="{{ url_for('static', filename='gargantua.png') }}" class=" img-circle my_profile"
+                     >
                         <h1>Linfeng SHU</h1>
                         <span class="subheading">I think, therefore I am.</span>
                     </div>
@@ -53,7 +56,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{{ base_url + '/' }}">LinfengSHU</a>
+                <a class="navbar-brand" href="{{ base_url + '/' }}">Linfeng SHU</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -66,8 +69,7 @@
                 <div class="navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="{{ base_url + "/" }}">Home</a></li>
-                        <li><a href="#">PORTFOLIO</a></li>
-                        <li><a href="#">About</a></li>
+                        <li><a href="{{ url_for('main.about') }}">About</a></li>
                     </ul>
                 </div>
             </div>
@@ -78,8 +80,8 @@
 {% endblock %}
     {% block container %}
     {% endblock %}
-<!-- Footer -->
-{% block footer %}
+    {% macro footer() %}
+    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="row">
@@ -87,11 +89,17 @@
                     <ul class="list-inline text-center">
 
                         <li>
-                            <a target="_blank" href="http://git.oschina.net">
+                            <a target="_blank" href="https://github.com/LinfengSHU99">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-github fa-stack-1x fa-inverse"></i>
                             </span>
+                            </a>
+                            <a target="_blank" href="https://www.linkedin.com/in/linfeng-shu-a2983621b/">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                                </span>
                             </a>
                         </li>
 
@@ -111,7 +119,8 @@
             </div>
         </div>
     </footer>
-{% endblock %}
+    {% endmacro %}
+    {{ footer() }}
 <!-- jQuery -->
     <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
 

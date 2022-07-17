@@ -123,6 +123,8 @@ def route_to_post():
             else:
                 c = [c for c in current_app.category_list if c.name == category][0]
             a.category = c
+            a.year = a.post_time.year
+            a.month = a.post_time.month
             a.tags.append(t)
             db.session.add_all([a,t,c])
             db.session.commit()
@@ -134,4 +136,4 @@ def route_to_post():
 
 @main.route(base_url + '/about')
 def about():
-    pass
+    return render_template('about.html')

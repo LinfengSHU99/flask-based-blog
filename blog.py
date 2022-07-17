@@ -1,13 +1,13 @@
 import os
-from . import create_app
+from app import create_app
 
 
-app = create_app()
+blog = create_app()
 
-if os.getenv('DEV', 0) == 1:
-    from . import db
-    from database import Article, Tag, Password, Category
-    from config import Config
+if os.getenv('PRODUCTION', 0) != '1':
+    from app import db
+    from app.database import Article, Tag, Password, Category
+    from app.config import Config
     import datetime
     from werkzeug.security import generate_password_hash
     db.drop_all()
@@ -34,7 +34,7 @@ if os.getenv('DEV', 0) == 1:
     t2 = Tag(name='tag2', url='/tag/' + 'tag2')
     c1 = Category(name='category1')
     c2 = Category(name='category2')
-    p1 = Password(password='Kanade123', password_hash=generate_password_hash('Kanade123'))
+    p1 = Password(password='123', password_hash=generate_password_hash('123'))
     a1.category = c1
     a2.category = c1
     a3.category = c2

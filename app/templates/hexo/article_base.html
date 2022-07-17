@@ -1,3 +1,4 @@
+{% from 'hexo/base.html' import footer %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -10,6 +11,7 @@
     <link rel="shortcut icon" href="image/cat.jpg">
 
     <title>
+        Linfeng SHU's blog
     </title>
 
     <!-- Bootstrap Core CSS -->
@@ -26,7 +28,7 @@
     <!-- 使得数字字母等自动换行 -->
     <style>
         .intro-header {
-            background-image: url('image/cat.jpg')
+            background-image: url('../../static/star2.jpg')
         }
         p {
             word-wrap:break-word
@@ -126,35 +128,36 @@
     </div>
 
     <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <ul class="list-inline text-center">
-
-                        <li>
-                            <a target="_blank" href="http://git.oschina.net">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                            </span>
-                            </a>
-                        </li>
-
-                    </ul>
-                    <p class="copyright text-muted">
-                        Copyright &copy; Linfeng SHU
-                        <br>
-                        Theme by <a href="http://beantech.org/">Bean Tech</a>
-                        <span style="display: inline-block; margin: 0 5px;">
-                        <i class="fa fa-heart"></i>
-                    </span>
-                        re-Ported by <a href="http://mmczgd.oschina.io/">Lazy Cat</a>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </footer>
+{{ footer() }}
+{#    <footer>#}
+{#        <div class="container">#}
+{#            <div class="row">#}
+{#                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">#}
+{#                    <ul class="list-inline text-center">#}
+{##}
+{#                        <li>#}
+{#                            <a target="_blank" href="https://github.com/LinfengSHU99">#}
+{#                            <span class="fa-stack fa-lg">#}
+{#                                <i class="fa fa-circle fa-stack-2x"></i>#}
+{#                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>#}
+{#                            </span>#}
+{#                            </a>#}
+{#                        </li>#}
+{##}
+{#                    </ul>#}
+{#                    <p class="copyright text-muted">#}
+{#                        Copyright &copy; Linfeng SHU#}
+{#                        <br>#}
+{#                        Theme by <a href="http://beantech.org/">Bean Tech</a>#}
+{#                        <span style="display: inline-block; margin: 0 5px;">#}
+{#                        <i class="fa fa-heart"></i>#}
+{#                    </span>#}
+{#                        re-Ported by <a href="http://mmczgd.oschina.io/">Lazy Cat</a>#}
+{#                    </p>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </footer>#}
 
     <!-- jQuery -->
     <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>

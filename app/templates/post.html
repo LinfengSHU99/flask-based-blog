@@ -7,8 +7,9 @@
 {% block title %}Flasky{% endblock %}
 
 {% block container %}
+    <div class="text-center">
 {#    {{ wtf.quick_form(form) }}#}
-    <form style="text-align: center" method="POST">
+    <form method="POST">
         {{ form.hidden_tag() }}
         {{ form.title.label }}
         {{ form.title() }}
@@ -40,6 +41,7 @@
     <br>
         {{ form.submit }}
     </form>
+    </div>
 <div class="container">
     <div class="page-header">
     </div>

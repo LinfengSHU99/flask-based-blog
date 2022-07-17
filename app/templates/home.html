@@ -39,14 +39,14 @@
 
 
 {% block pager %}
-<div class="text-center">
-    <ul class="pagination center">
+<div class="text-center" >
+    <ul class="pagination " >
     {% if session['index_page'] > 1 %}
-        <li class="page-item"><a href="{{ base_url + '/page/' + str(session['index_page'] - 1 if session['index_page'] - 1 > 0 else 1)  }}">&larr; Previous</a></li>
+        <li class="page-item"><a href="{{ base_url + '/page/' + str(session['index_page'] - 1 if session['index_page'] - 1 > 0 else 1)  }}">Prev</a></li>
     {% else %}
-        <li class="page-item"><a href="#">Previous</a> </li>
+        <li class="page-item"><a href="#">Prev</a> </li>
     {% endif %}
-    {% for i in range(int(session['max_page']) + 1) %}
+    {% for i in range(ceil(session['max_page'])) %}
         {% if i + 1 == session['index_page'] %}
             <li class="page-item active"><a class="page-link" href="#">{{ i + 1 }}</a></li>
         {% else %}
@@ -54,7 +54,7 @@
         {% endif %}
     {% endfor %}
     {% if session['index_page'] < session['max_page'] %}
-        <li class="page-item"><a href="{{ base_url + '/page/' + str(session['index_page'] + 1) }}">Next &rarr;</a></li>
+        <li class="page-item"><a href="{{ base_url + '/page/' + str(session['index_page'] + 1) }}">Next</a></li>
         {% else %}
         <li class="page-item"><a href="#">Next</a> </li>
     {% endif %}
