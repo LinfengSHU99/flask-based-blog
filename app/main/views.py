@@ -49,7 +49,9 @@ def init_tag_category_archive():
 def index(n=1):
     n = int(n)
     session['index_page'] = n
-    article_list_t = current_app.article_all
+    article_list_t = list(current_app.article_all)
+    # ordered by modification time?
+    article_list_t.reverse()
     session['max_page'] = len(article_list_t) / 5
     article_list_page = article_list_t[5 * n - 5: n * 5]
 
