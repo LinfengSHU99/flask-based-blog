@@ -13,4 +13,6 @@ class MarkDownForm(FlaskForm):
     pagedown = PageDownField('Enter your markdown', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
-
+class TestFrom(FlaskForm):
+    title = StringField('pw', validators=[DataRequired()])
+    submit = SubmitField('submit')
