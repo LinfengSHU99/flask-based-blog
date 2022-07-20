@@ -1,9 +1,9 @@
 import datetime
-from flask import Flask, render_template, session, request, redirect, current_app, g
+from flask import Flask, render_template, session, request, redirect, current_app, g, make_response, url_for, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from . import main
-from .form import MarkDownForm
+from .form import MarkDownForm, TestFrom
 from ..database import Article, Tag, Category, Password, db
 from ..config import base_url
 
@@ -93,47 +93,78 @@ def articles_of_tag(tagname=None, category_name=None, year=None, month=None):
                            category_list=current_app.category_list, year_month_list=current_app.year_month_list)
 
 
-@main.route(base_url + '/post', methods=['GET', 'POST'])
-def route_to_post():
-    data = None
-    form = MarkDownForm()
-    category_name = [c.name for c in Category.query.all()]
-    tag_name = [tag.name for tag in Tag.query.all()]
-    # print(category_name)
-    # print([tag.name for tag in Tag.query.all()])
-    # print(current_app.tag_list)
-    if form.validate_on_submit():
-        print('here')
-        password = form.password.data
-        content = form.pagedown.data
-        content  = '<mytag>' + content + '</mytag>'
-        title = form.title.data
-        subtitle = form.subtitle.data
-        tag = form.tag.data
-        category = form.category.data
-        if check_password_hash(Password.query.all()[0].password_hash, password):
-            print('correct')
-            a = Article(title=title, content=content, post_time=datetime.datetime.now(), subtitle=subtitle, )
-            if tag not in [t.name for t in current_app.tag_list]:
-                t = Tag(name=tag)
-            else:
-                t = [tag_ for tag_ in current_app.tag_list if tag_.name == tag][0]
-            if category not in [c.name for c in current_app.category_list]:
-                c = Category(name=category)
-            else:
-                c = [c for c in current_app.category_list if c.name == category][0]
-            a.category = c
-            a.year = a.post_time.year
-            a.month = a.post_time.month
-            a.tags.append(t)
-            db.session.add_all([a,t,c])
-            db.session.commit()
-        init_tag_category_archive()
-        print('success')
-        return "success"
-    return render_template('post.html', form=form, category_name=category_name, tag_name=tag_name)
+@main.route(base_url + '/admin', methods=['GET', 'POST'])
+def route_to_admin():
+    if session.get('state') != 'registered':
+        return redirect(url_for('main.route_to_login'))
+    else:
+        data = None
+        form = MarkDownForm()
+        category_name = [c.name for c in Category.query.all()]
+        tag_name = [tag.name for tag in Tag.query.all()]
+        # print(category_name)
+        # print([tag.name for tag in Tag.query.all()])
+        # print(current_app.tag_list)
+        if form.validate_on_submit():
+            print('here')
+            password = form.password.data
+            content = form.pagedown.data
+            content = '<mytag>' + content + '</mytag>'
+            title = form.title.data
+            subtitle = form.subtitle.data
+            tag = form.tag.data
+            category = form.category.data
+            if check_password_hash(Password.query.all()[0].password_hash, password):
+                print('correct')
+                a = Article(title=title, content=content, post_time=datetime.datetime.now(), subtitle=subtitle, )
+                if tag not in [t.name for t in current_app.tag_list]:
+                    t = Tag(name=tag)
+                else:
+                    t = [tag_ for tag_ in current_app.tag_list if tag_.name == tag][0]
+                if category not in [c.name for c in current_app.category_list]:
+                    c = Category(name=category)
+                else:
+                    c = [c for c in current_app.category_list if c.name == category][0]
+                a.category = c
+                a.year = a.post_time.year
+                a.month = a.post_time.month
+                a.tags.append(t)
+                db.session.add_all([a,t,c])
+                db.session.commit()
+            init_tag_category_archive()
+            print('success')
+            return "success"
+        return render_template('post.html', form=form, category_name=category_name, tag_name=tag_name)
 
 
 @main.route(base_url + '/about')
 def about():
     return render_template('about.html')
+
+
+@main.route(base_url + '/login', methods=['GET', 'POST'])
+def route_to_login():
+    form = TestFrom()
+    if form.validate_on_submit():
+        pw = form.title.data
+        if pw == '123':
+            # flask session is based on cookies. The info of session is encrypted using
+            # SECRET_KEY, and stored in the browser.
+            # By default, the cookies are cleared when the browser is closed. And that's the time
+            # during which the session is maintained.
+            session['state'] = 'registered'
+            return redirect(url_for('main.index'))
+        flash('Wrong Password!')
+    return render_template('login.html', form=form)
+
+
+@main.route('/in')
+def in_():
+    print(session.get('pw'))
+    if request.cookies.get('state') == 'login':
+
+        return 'you are in!'
+    elif session.get('pw') == '666':
+        return '666！'
+    else:
+        return 'fail!'

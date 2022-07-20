@@ -1,0 +1,12 @@
+{% extends 'hexo/base.html' %}
+
+{% block container %}
+    <div class="text-center">
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            {{ form.title() }}
+            {{ form.submit() }}
+
+        </form>
+    </div>
+{% endblock %}
