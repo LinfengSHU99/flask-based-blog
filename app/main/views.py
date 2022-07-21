@@ -24,7 +24,7 @@ def articleOfTag(tagname) -> list:
 
 
 def articleOfCategory(name) -> list:
-    return list([category.article for category in current_app.category_list if category.name == name][0])
+    return list([category.articles for category in current_app.category_list if category.name == name][0])
 
 
 @main.before_app_first_request
@@ -141,14 +141,8 @@ def route_to_admin():
             if action == 'delete':
                 article = Article.query.filter_by(id=article_id).first()
                 db.session.delete(article)
-                for tag in current_app.tag_list:
-                    print(tag.articles)
-                    # if tag.article_id is None:
-                    #     db.session.delete(tag)
-                for category in current_app.category_list:
-                    print(category.article)
-                    # if category.article is None:
-                    #     db.session.delete(category)
+                db.session.query(Tag).filter(~Tag.articles.any()).delete(synchronize_session=False)
+                db.session.query(Category).filter(~Category.articles.any()).delete(synchronize_session=False)
                 db.session.commit()
                 init_tag_category_archive()
         return render_template('admin.html', article_list=current_app.article_all)
