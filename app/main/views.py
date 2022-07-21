@@ -98,43 +98,60 @@ def route_to_admin():
     if session.get('state') != 'registered':
         return redirect(url_for('main.route_to_login'))
     else:
-        data = None
-        form = MarkDownForm()
-        category_name = [c.name for c in Category.query.all()]
-        tag_name = [tag.name for tag in Tag.query.all()]
-        # print(category_name)
-        # print([tag.name for tag in Tag.query.all()])
-        # print(current_app.tag_list)
-        if form.validate_on_submit():
-            print('here')
-            password = form.password.data
-            content = form.pagedown.data
-            content = '<mytag>' + content + '</mytag>'
-            title = form.title.data
-            subtitle = form.subtitle.data
-            tag = form.tag.data
-            category = form.category.data
-            if check_password_hash(Password.query.all()[0].password_hash, password):
-                print('correct')
-                a = Article(title=title, content=content, post_time=datetime.datetime.now(), subtitle=subtitle, )
-                if tag not in [t.name for t in current_app.tag_list]:
-                    t = Tag(name=tag)
-                else:
-                    t = [tag_ for tag_ in current_app.tag_list if tag_.name == tag][0]
-                if category not in [c.name for c in current_app.category_list]:
-                    c = Category(name=category)
-                else:
-                    c = [c for c in current_app.category_list if c.name == category][0]
-                a.category = c
-                a.year = a.post_time.year
-                a.month = a.post_time.month
-                a.tags.append(t)
-                db.session.add_all([a,t,c])
+        # data = None
+        # form = MarkDownForm()
+        # category_name = [c.name for c in Category.query.all()]
+        # tag_name = [tag.name for tag in Tag.query.all()]
+        # # print(category_name)
+        # # print([tag.name for tag in Tag.query.all()])
+        # # print(current_app.tag_list)
+        # if form.validate_on_submit():
+        #     print('here')
+        #     password = form.password.data
+        #     content = form.pagedown.data
+        #     content = '<mytag>' + content + '</mytag>'
+        #     title = form.title.data
+        #     subtitle = form.subtitle.data
+        #     tag = form.tag.data
+        #     category = form.category.data
+        #     if check_password_hash(Password.query.all()[0].password_hash, password):
+        #         print('correct')
+        #         a = Article(title=title, content=content, post_time=datetime.datetime.now(), subtitle=subtitle, )
+        #         if tag not in [t.name for t in current_app.tag_list]:
+        #             t = Tag(name=tag)
+        #         else:
+        #             t = [tag_ for tag_ in current_app.tag_list if tag_.name == tag][0]
+        #         if category not in [c.name for c in current_app.category_list]:
+        #             c = Category(name=category)
+        #         else:
+        #             c = [c for c in current_app.category_list if c.name == category][0]
+        #         a.category = c
+        #         a.year = a.post_time.year
+        #         a.month = a.post_time.month
+        #         a.tags.append(t)
+        #         db.session.add_all([a,t,c])
+        #         db.session.commit()
+        #     init_tag_category_archive()
+        #     print('success')
+        #     return "success"
+        # return render_template('post.html', form=form, category_name=category_name, tag_name=tag_name)
+        if request.form.get('action') is not None:
+            action = request.form.get('action').split(' ')[0]
+            article_id = request.form.get('action').split(' ')[1]
+            if action == 'delete':
+                article = Article.query.filter_by(id=article_id).first()
+                db.session.delete(article)
+                for tag in current_app.tag_list:
+                    print(tag.articles)
+                    # if tag.article_id is None:
+                    #     db.session.delete(tag)
+                for category in current_app.category_list:
+                    print(category.article)
+                    # if category.article is None:
+                    #     db.session.delete(category)
                 db.session.commit()
-            init_tag_category_archive()
-            print('success')
-            return "success"
-        return render_template('post.html', form=form, category_name=category_name, tag_name=tag_name)
+                init_tag_category_archive()
+        return render_template('admin.html', article_list=current_app.article_all)
 
 
 @main.route(base_url + '/about')
