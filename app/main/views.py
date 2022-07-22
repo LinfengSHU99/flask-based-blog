@@ -1,7 +1,7 @@
 import datetime
 from flask import Flask, render_template, session, request, redirect, current_app, g, make_response, url_for, flash
 from werkzeug.security import generate_password_hash, check_password_hash
-
+import markdown
 from . import main
 from .form import MarkDownForm, TestFrom
 from ..database import Article, Tag, Category, Password, db
@@ -98,43 +98,6 @@ def route_to_admin():
     if session.get('state') != 'registered':
         return redirect(url_for('main.route_to_login'))
     else:
-        # data = None
-        # form = MarkDownForm()
-        # category_name = [c.name for c in Category.query.all()]
-        # tag_name = [tag.name for tag in Tag.query.all()]
-        # # print(category_name)
-        # # print([tag.name for tag in Tag.query.all()])
-        # # print(current_app.tag_list)
-        # if form.validate_on_submit():
-        #     print('here')
-        #     password = form.password.data
-        #     content = form.pagedown.data
-        #     content = '<mytag>' + content + '</mytag>'
-        #     title = form.title.data
-        #     subtitle = form.subtitle.data
-        #     tag = form.tag.data
-        #     category = form.category.data
-        #     if check_password_hash(Password.query.all()[0].password_hash, password):
-        #         print('correct')
-        #         a = Article(title=title, content=content, post_time=datetime.datetime.now(), subtitle=subtitle, )
-        #         if tag not in [t.name for t in current_app.tag_list]:
-        #             t = Tag(name=tag)
-        #         else:
-        #             t = [tag_ for tag_ in current_app.tag_list if tag_.name == tag][0]
-        #         if category not in [c.name for c in current_app.category_list]:
-        #             c = Category(name=category)
-        #         else:
-        #             c = [c for c in current_app.category_list if c.name == category][0]
-        #         a.category = c
-        #         a.year = a.post_time.year
-        #         a.month = a.post_time.month
-        #         a.tags.append(t)
-        #         db.session.add_all([a,t,c])
-        #         db.session.commit()
-        #     init_tag_category_archive()
-        #     print('success')
-        #     return "success"
-        # return render_template('post.html', form=form, category_name=category_name, tag_name=tag_name)
         if request.form.get('action') is not None:
             action = request.form.get('action').split(' ')[0]
             article_id = request.form.get('action').split(' ')[1]
@@ -145,8 +108,69 @@ def route_to_admin():
                 db.session.query(Category).filter(~Category.articles.any()).delete(synchronize_session=False)
                 db.session.commit()
                 init_tag_category_archive()
+            elif action == 'modify':
+                return redirect(url_for('main.modify', id=article_id))
         return render_template('admin.html', article_list=current_app.article_all)
 
+
+@main.route(base_url + '/admin/modify<id>', methods=['POST', 'GET'])
+def modify(id):
+    form = MarkDownForm()
+    if id is not None:
+        article = Article.query.filter_by(id=id).first()
+        tag_list = []
+        for tag in article.tags:
+            tag_list.append(tag.name)
+        tags = ','.join(tag_list)
+        print(tags)
+        print(article.category.name)
+        return render_template('post.html', form=form, title=article.title, subtitle=article.subtitle, category=article.category.name,
+                               content=article.content, tags=tags)
+
+
+
+
+@main.route(base_url + '/admin/post', methods=['POST', 'GET'])
+def post():
+    if session.get('state') != 'registered':
+        return redirect(url_for('main.route_to_login'))
+    data = None
+    form = MarkDownForm()
+    category_name = [c.name for c in Category.query.all()]
+    tag_name = [tag.name for tag in Tag.query.all()]
+    # print(category_name)
+    # print([tag.name for tag in Tag.query.all()])
+    # print(current_app.tag_list)
+    if form.validate_on_submit():
+        print('here')
+        content = form.pagedown.data
+        content = markdown.markdown(content)
+        print(content)
+        title = form.title.data
+        subtitle = form.subtitle.data
+        tags = form.tag.data
+        tags = tags.split(',')
+        category = form.category.data
+        a = Article(title=title, content=content, post_time=datetime.datetime.now(), subtitle=subtitle, )
+        for tag in tags:
+            if tag not in [t.name for t in current_app.tag_list]:
+                t = Tag(name=tag)
+            else:
+                t = [tag_ for tag_ in current_app.tag_list if tag_.name == tag][0]
+        if category not in [c.name for c in current_app.category_list]:
+            c = Category(name=category)
+        else:
+            c = [c for c in current_app.category_list if c.name == category][0]
+        a.category = c
+        a.year = a.post_time.year
+        a.month = a.post_time.month
+        a.tags.append(t)
+        db.session.add_all([a,t,c])
+        db.session.commit()
+        init_tag_category_archive()
+        # print('success')
+        return "success"
+    return render_template('post.html', form=form, category_name=category_name, tag_name=tag_name)
 
 @main.route(base_url + '/about')
 def about():

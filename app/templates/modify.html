@@ -3,24 +3,22 @@
 {% block head %}
     {{ super() }}
     {{ pagedown.html_head() }}
-
 {% endblock %}
-
 {% block container %}
     <div class="text-center">
     <form method="POST">
         {{ form.hidden_tag() }}
         {{ form.title.label }}
-        {{ form.title(value=title) }}
+        {{ form.title() }}
     <br>
         {{ form.subtitle.label }}
-        {{ form.subtitle(value=subtitle) }}
+        {{ form.subtitle() }}
     <br>
         {{ form.pagedown.label }}
         {{ form.pagedown(rows=20, cols=50) }}
     <br>
         {{ form.category.label }}
-        {{ form.category(list='category_', value=category) }}
+        {{ form.category(list='category_') }}
         <datalist id="category_">
             {% for category in category_name %}
             <option>{{ category }}</option>
@@ -28,7 +26,7 @@
         </datalist>
     <br>
         {{ form.tag.label }}
-        {{ form.tag(list='tag_', value=tags) }}
+        {{ form.tag(list='tag_') }}
         <datalist id="tag_">
             {% for tag in tag_name %}
             <option>{{ tag }}</option>
@@ -41,13 +39,5 @@
         {{ form.submit }}
     </form>
     </div>
-<div class="container">
-    <div class="page-header">
-    </div>
-</div>
-     <script>
-        let textarea = document.getElementsByName('pagedown')[0];
-        {#textarea = textarea.item(0)#}
-        textarea.innerHTML= "{{ content }}"
-    </script>
+
 {% endblock %}

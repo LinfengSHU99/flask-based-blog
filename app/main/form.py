@@ -9,7 +9,7 @@ class MarkDownForm(FlaskForm):
     subtitle = StringField('Subtitle')
     category = StringField('Category', validators=[DataRequired()])
     tag = StringField('Tag', validators=[DataRequired()])
-    password = PasswordField('Token', validators=[DataRequired()])
+    # password = PasswordField('Token', validators=[DataRequired()])
     pagedown = PageDownField('Enter your markdown', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
