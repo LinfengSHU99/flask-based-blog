@@ -8,7 +8,7 @@ class Tag(db.Model):
     __tablename__ = 'tag'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
-    url = db.Column(db.String(64))
+    # url = db.Column(db.String(64))
     # article_id = db.Column(db.Integer, db.ForeignKey('article.id'))
     articles = db.relationship('Article', secondary=article_tag, back_populates='tags', lazy='dynamic', cascade='all, delete')
 

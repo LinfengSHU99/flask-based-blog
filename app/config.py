@@ -7,9 +7,10 @@ from math import ceil
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 base_url = ''
+# html content required
 def abstract(content):
-    content = '<mytag>' + content + '</mytag>'
-    soup = BeautifulSoup(content, features='html.parser')
+    content_t = '<mytag>' + content + '</mytag>'
+    soup = BeautifulSoup(content_t, features='html.parser')
     mytag = soup.mytag
     s = mytag.get_text()
     return s
@@ -25,11 +26,8 @@ def articleOfMonthYear(month, year):
 class Config:
     with open('Devlog.md', 'r') as fp:
         content1 = fp.read()
-    content1 = markdown.markdown(content1)
-    content1 = '<mytag>' + content1
-    content1 = content1 + '</mytag>'
-    content2 = '<mytag>Flask-SQLAlchemy provides a base class for models as\
-well as a set of helper classes and functions that are used</mytag>'
+    content2 = 'Flask-SQLAlchemy provides a base class for models as\
+well as a set of helper classes and functions that are used'
 
 
     @staticmethod
@@ -48,3 +46,4 @@ well as a set of helper classes and functions that are used</mytag>'
         app.jinja_env.globals['monthOfYear'] = monthOfYear
         app.jinja_env.globals['articleOfMonthYear'] = articleOfMonthYear
         app.jinja_env.globals['abstract'] = abstract
+        app.jinja_env.globals['markdown'] = markdown.markdown

@@ -17,8 +17,9 @@
                 </a>
 
                 <div class="post-list-tags">
-                    <span><i class="fa fa-tag"></i></span>
+
                     {% for tag in article.tags %}
+                    <span><i class="fa fa-tag"></i></span>
                     <a href="{{ base_url + '/tag/' + tag.name}}" class="tag">{{ tag.name }}</a>
                     {% endfor %}
                 </div>

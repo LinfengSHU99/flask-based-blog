@@ -10,33 +10,58 @@
     <div class="text-center">
     <form method="POST">
         {{ form.hidden_tag() }}
-        {{ form.title.label }}
-        {{ form.title(value=title) }}
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            {{ form.title.label }}
+            {{ form.title(value=title, autocomplete="off") }}
+        </div>
+    </div>
     <br>
-        {{ form.subtitle.label }}
-        {{ form.subtitle(value=subtitle) }}
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            {{ form.subtitle.label }}
+            {{ form.subtitle(value=subtitle, autocomplete="off") }}
+        </div>
+    </div>
     <br>
-        {{ form.pagedown.label }}
-        {{ form.pagedown(rows=20, cols=50) }}
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            {{ form.pagedown.label }}
+            {{ form.pagedown(only_input=True, rows=20, cols=50) }}
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 text-justify">
+            {{ form.pagedown(only_preview=True) }}
+        </div>
+    </div>
+
+
     <br>
-        {{ form.category.label }}
-        {{ form.category(list='category_', value=category) }}
-        <datalist id="category_">
-            {% for category in category_name %}
-            <option>{{ category }}</option>
-            {% endfor %}
-        </datalist>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            {{ form.category.label }}
+            {{ form.category(list='category_', value=category, autocomplete="off") }}
+            <datalist id="category_">
+                {% for category in category_name %}
+                <option>{{ category }}</option>
+                {% endfor %}
+            </datalist>
+        </div>
+    </div>
+
     <br>
-        {{ form.tag.label }}
-        {{ form.tag(list='tag_', value=tags) }}
-        <datalist id="tag_">
-            {% for tag in tag_name %}
-            <option>{{ tag }}</option>
-            {% endfor %}
-        </datalist>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            {{ form.tag.label }}
+            {{ form.tag(list='tag_', value=tags, autocomplete="off") }}
+            <datalist id="tag_">
+                {% for tag in tag_name %}
+                <option>{{ tag }}</option>
+                {% endfor %}
+            </datalist>
+        </div>
+    </div>
+
         <br>
-{#        {{ form.password.label }}#}
-{#        {{ form.password() }}#}
     <br>
         {{ form.submit }}
     </form>
@@ -47,7 +72,10 @@
 </div>
      <script>
         let textarea = document.getElementsByName('pagedown')[0];
+        textarea.innerText = "";
         {#textarea = textarea.item(0)#}
-        textarea.innerHTML= "{{ content }}"
+        {% for line in content_list %}
+        textarea.innerHTML += "{{ line }}" + "\n";
+        {% endfor %}
     </script>
 {% endblock %}

@@ -40,6 +40,7 @@
             ">
                 <div class="admin-panel">
                     <ul style="padding-left: 0">
+                        <li><a href="{{ url_for('main.index') }}">HOME</a> </li>
                         <li><a href="{{ url_for('main.post') }}">post</a></li>
                     </ul>
                 </div>
@@ -73,5 +74,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
 {% endblock %}
 
-
+{% block nav %}
+{% endblock %}
 

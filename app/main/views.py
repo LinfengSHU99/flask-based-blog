@@ -7,6 +7,7 @@ from .form import MarkDownForm, TestFrom
 from ..database import Article, Tag, Category, Password, db
 from ..config import base_url
 
+
 def numOfArticle():
     pass
 
@@ -55,22 +56,13 @@ def index(n=1):
     session['max_page'] = len(article_list_t) / 5
     article_list_page = article_list_t[5 * n - 5: n * 5]
 
-    url_list = []
-    # tag_list = Tag.query.all()
-    # category_list = Category.query.all()G
-    # for a in article_list:
-    #     url_list.append('/article/{0}'.format(a.id))
-    # print(current_app.year_month_list)
     return render_template('home.html', article_list=article_list_page,
-                            tag_list=current_app.tag_list, category_list=current_app.category_list,
+                           tag_list=current_app.tag_list, category_list=current_app.category_list,
                            year_month_list=current_app.year_month_list)
 
 
-# @main.route(base_url + '/page/' + '<n>')
-# def index
 @main.route(base_url + '/article/<id>')
 def route_to_article(id):
-    print(id)
     a = Article.query.filter_by(id=id).first()
     return render_template('article.html', article=a)
 
@@ -81,16 +73,13 @@ def route_to_article(id):
 def articles_of_tag(tagname=None, category_name=None, year=None, month=None):
     # search for articles whose tags have the tag named <tagname>
     article_list = []
-    # category_list = Category.query.all()
     category = Category.query.filter_by(name=category_name).first()
     if tagname is not None:
         article_list = articleOfTag(tagname)
     elif category_name is not None:
-        # article_list = list(category.article)
         article_list = articleOfCategory(category_name)
     elif year is not None and month is not None:
         article_list = articleOfMonthYear(month, year)
-    # tag_list = Tag.query.all()
     return render_template('catalog.html', article_list=article_list, tag_list=current_app.tag_list,
                            category_list=current_app.category_list, year_month_list=current_app.year_month_list)
 
@@ -117,6 +106,8 @@ def route_to_admin():
 
 @main.route(base_url + '/admin/modify<id>', methods=['POST', 'GET'])
 def modify(id):
+    if session.get('state') != 'registered':
+        return redirect(url_for('main.route_to_login'))
     form = MarkDownForm()
     if id is not None:
         article = Article.query.filter_by(id=id).first()
@@ -124,12 +115,11 @@ def modify(id):
         for tag in article.tags:
             tag_list.append(tag.name)
         tags = ','.join(tag_list)
-        print(tags)
-        print(article.category.name)
-        return render_template('post.html', form=form, title=article.title, subtitle=article.subtitle, category=article.category.name,
-                               content=article.content, tags=tags)
-
-
+        # each element in the list is a line of content.
+        content_list = article.content.split('\n')
+        return render_template('post.html', form=form, title=article.title, subtitle=article.subtitle,
+                               category=article.category.name,
+                               content_list=content_list, tags=tags)
 
 
 @main.route(base_url + '/admin/post', methods=['POST', 'GET'])
@@ -140,14 +130,9 @@ def post():
     form = MarkDownForm()
     category_name = [c.name for c in Category.query.all()]
     tag_name = [tag.name for tag in Tag.query.all()]
-    # print(category_name)
-    # print([tag.name for tag in Tag.query.all()])
-    # print(current_app.tag_list)
     if form.validate_on_submit():
-        print('here')
         content = form.pagedown.data
-        content = markdown.markdown(content)
-        print(content)
+        # content = markdown.markdown(content)
         title = form.title.data
         subtitle = form.subtitle.data
         tags = form.tag.data
@@ -159,6 +144,8 @@ def post():
                 t = Tag(name=tag)
             else:
                 t = [tag_ for tag_ in current_app.tag_list if tag_.name == tag][0]
+            a.tags.append(t)
+            db.session.add(t)
         if category not in [c.name for c in current_app.category_list]:
             c = Category(name=category)
         else:
@@ -166,13 +153,12 @@ def post():
         a.category = c
         a.year = a.post_time.year
         a.month = a.post_time.month
-        a.tags.append(t)
-        db.session.add_all([a,t,c])
+        db.session.add_all([a, c])
         db.session.commit()
         init_tag_category_archive()
-        # print('success')
-        return "success"
+        return redirect(url_for('main.route_to_admin'))
     return render_template('post.html', form=form, category_name=category_name, tag_name=tag_name)
+
 
 @main.route(base_url + '/about')
 def about():

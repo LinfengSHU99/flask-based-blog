@@ -3,13 +3,15 @@ from flask_bootstrap import Bootstrap
 from flask_pagedown import PageDown
 from flask_sqlalchemy import SQLAlchemy
 from .config import Config
+from flask_migrate import Migrate
 
 db = SQLAlchemy()
 bootstrap = Bootstrap()
 pagedown = PageDown()
-
+migrate = Migrate()
 
 def create_app():
+    from app.database import Tag, Article, Category, Password
     app = Flask(__name__)
     Config.init_app(app)
     db.init_app(app)
@@ -18,4 +20,5 @@ def create_app():
     pagedown.init_app(app)
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
+    migrate.init_app(app, db)
     return app

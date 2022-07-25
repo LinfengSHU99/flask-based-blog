@@ -1,12 +1,12 @@
 import os
 from app import create_app
-
+from flask_migrate import Migrate, upgrade
+from app import db
+from app.database import Article, Tag, Password, Category
 
 blog = create_app()
-
+# migrate = Migrate(blog, db)
 if os.getenv('PRODUCTION', 0) != '1':
-    from app import db
-    from app.database import Article, Tag, Password, Category
     from app.config import Config
     import datetime
     from werkzeug.security import generate_password_hash
@@ -30,8 +30,8 @@ if os.getenv('PRODUCTION', 0) != '1':
     a12 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.now(), subtitle='test1', )
     a13 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.now(), subtitle='test1', )
     a14 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.now(), subtitle='test1', )
-    t1 = Tag(name='tag1', url='/tag/' + 'tag1')
-    t2 = Tag(name='tag2', url='/tag/' + 'tag2')
+    t1 = Tag(name='tag1', )
+    t2 = Tag(name='tag2', )
     c1 = Category(name='category1')
     c2 = Category(name='category2')
     p1 = Password(password='123', password_hash=generate_password_hash('123'))
@@ -49,3 +49,9 @@ if os.getenv('PRODUCTION', 0) != '1':
         a.year = a.post_time.year
         a.month = a.post_time.month
     db.session.commit()
+
+
+# @blog.shell_context_processor
+# def make_shell_context():
+#     return dict(db=db, Tag=Tag, Article=Article, Category=Category,
+#                 Password=Password)
