@@ -1,0 +1,15 @@
+.post-list-admin {
+    padding: 5px;
+    margin-top: 0;
+    border-bottom: 1px solid lightblue;
+}
+.admin-panel {
+    border: 1px solid lavender;
+    /*border-radius: ;*/
+    /*color: #9d9d9d;*/
+    font-size: 20px;
+    /*position: fixed;*/
+    margin-top: 100px;
+    padding: 40px;
+    margin-left: 80px;
+}

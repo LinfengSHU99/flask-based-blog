@@ -1,0 +1,77 @@
+{% extends 'hexo/catalog_base.html' %}
+{% block container %}
+    <!-- Content -->
+    <div class="container">
+        <div class="row">
+            <!-- Post container -->
+            <div class="
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                post-container
+            ">
+{% block post_list %}
+    {% for article in article_list %}
+    <div class="post-list-admin">
+        <div class="layout-bottom">
+            <div class="post-content-container">
+                <a href="{{ url_for('main.route_to_article', id=str(article.id)) }}">
+                    <h3 class="post-title">{{ article.title }}<small>  {{ article.post_time.ctime() }}</small></h3>
+                </a>
+            </div>
+            <form method="post">
+                <button type="submit" name="action" value="modify {{ article.id }}" class="btn btn-primary btn-xs">Modify</button>
+                <button type="submit" name="action" value="delete {{ article.id }}" class="btn btn-danger btn-xs">Delete</button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+{% endblock %}
+            </div>
+            <!-- Sidebar container-->
+        <div class="row">
+            <div class="
+                col-lg-3 col-lg-offset-0
+                col-md-3 col-md-offset-0
+                col-sm-12
+                col-xs-12
+                sidebar-container
+            ">
+                <div class="admin-panel">
+                    <ul style="padding-left: 0">
+                        <li><a href="{{ url_for('main.post') }}">post</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block head %}
+     <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="懒猫">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="../../static/gargantua.png">
+    <title>
+        Linfeng SHU's blog
+    </title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="{{bootstrap_find_resource('css/bootstrap.css', cdn='bootstrap')}}">
+
+    <!-- Custom Fonts -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!--<link rel="stylesheet" href="source/css/typo.css">-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+
+

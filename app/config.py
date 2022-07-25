@@ -8,7 +8,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 base_url = ''
 def abstract(content):
-    soup = BeautifulSoup(content)
+    content = '<mytag>' + content + '</mytag>'
+    soup = BeautifulSoup(content, features='html.parser')
     mytag = soup.mytag
     s = mytag.get_text()
     return s
