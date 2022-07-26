@@ -70,10 +70,12 @@
     <div class="page-header">
     </div>
 </div>
+    {% if content is not none %}
      <script>
         let textarea = document.getElementsByName('pagedown')[0];
         textarea.innerText = "";
         {#textarea = textarea.item(0)#}
         textarea.innerHTML = {{ str(content.split('\n'))|safe }}.join("\n");
     </script>
+    {% endif %}
 {% endblock %}

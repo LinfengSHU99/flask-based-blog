@@ -129,4 +129,6 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+	{# 实质是导入moment.js库的, 通过Flask-moment集成了起来 #}
+	{{ moment.include_moment()}}
 </head>

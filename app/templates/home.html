@@ -5,7 +5,7 @@
     <div class="post-preview">
         <div class="layout-top">
             <h5 class="post-subtitle">{{ article.subtitle }}
-                <span class="post-meta">{{ article.post_time.ctime() }}</span>
+                <span class="post-meta">{{ moment(article.post_time).format('LL, H:mm') }}</span>
             </h5>
         </div>
 

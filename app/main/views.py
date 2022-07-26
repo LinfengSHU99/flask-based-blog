@@ -115,7 +115,7 @@ def modify(id):
         if form.validate_on_submit():
             tags = form.tag.data.split(',')
             title = form.title.data
-            subtitle = form.title.data
+            subtitle = form.subtitle.data
             category = form.category.data
             content = form.pagedown.data
             a = Article.query.filter_by(id=id).first()
@@ -170,7 +170,7 @@ def post():
         tags = form.tag.data
         tags = tags.split(',')
         category = form.category.data
-        a = Article(title=title, content=content, post_time=datetime.datetime.now(), subtitle=subtitle, )
+        a = Article(title=title, content=content, post_time=datetime.datetime.utcnow(), subtitle=subtitle, )
         for tag in tags:
             if tag != '':
                 if tag not in [t.name for t in current_app.tag_list]:
@@ -190,7 +190,7 @@ def post():
         db.session.commit()
         init_tag_category_archive()
         return redirect(url_for('main.route_to_admin'))
-    return render_template('post.html', form=form, category_name=category_name, tag_name=tag_name)
+    return render_template('post.html', form=form, category_name=category_name, tag_name=tag_name, content=None)
 
 
 @main.route(base_url + '/about')

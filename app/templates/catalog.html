@@ -6,7 +6,7 @@
     <div class=" post-list">
         <div class="layout-top">
             <h5 class="post-subtitle">
-                {{ article.post_time.ctime() }} <i class="fa fa-bookmark"></i>
+                {{ moment(article.post_time).format('LL, H:mm') }} <i class="fa fa-bookmark"></i>
             </h5>
         </div>
 

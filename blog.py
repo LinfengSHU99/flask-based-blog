@@ -12,24 +12,24 @@ if os.getenv('PRODUCTION', 0) != '1':
     from werkzeug.security import generate_password_hash
     db.drop_all()
     db.create_all()
-    a1 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.now(), subtitle='test1', year='2020',
+    a1 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.utcnow(), subtitle='test1', year='2020',
                  month='Jan')
-    a2 = Article(title='another test', content=Config.content2, post_time=datetime.datetime.now(), subtitle='another test',
+    a2 = Article(title='another test', content=Config.content2, post_time=datetime.datetime.utcnow(), subtitle='another test',
                  year='2020', month='Feb')
-    a3 = Article(title='another another test', content=Config.content2, post_time=datetime.datetime.now(),
+    a3 = Article(title='another another test', content=Config.content2, post_time=datetime.datetime.utcnow(),
                  subtitle='another another test', year='2020', month='Jan')
-    a4 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.now(), subtitle='test1', year='2021',
+    a4 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.utcnow(), subtitle='test1', year='2021',
                  month='Feb')
-    a5 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.now(), subtitle='test1', )
-    a6 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.now(), subtitle='test1', )
-    a7 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.now(), subtitle='test1', )
-    a8 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.now(), subtitle='test1', )
-    a9 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.now(), subtitle='test1', )
-    a10 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.now(), subtitle='test1', )
-    a11 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.now(), subtitle='test1', )
-    a12 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.now(), subtitle='test1', )
-    a13 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.now(), subtitle='test1', )
-    a14 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.now(), subtitle='test1', )
+    a5 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.utcnow(), subtitle='test1', )
+    a6 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.utcnow(), subtitle='test1', )
+    a7 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.utcnow(), subtitle='test1', )
+    a8 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.utcnow(), subtitle='test1', )
+    a9 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.utcnow(), subtitle='test1', )
+    a10 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.utcnow(), subtitle='test1', )
+    a11 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.utcnow(), subtitle='test1', )
+    a12 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.utcnow(), subtitle='test1', )
+    a13 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.utcnow(), subtitle='test1', )
+    a14 = Article(title='test1', content=Config.content1, post_time=datetime.datetime.utcnow(), subtitle='test1', )
     t1 = Tag(name='tag1', )
     t2 = Tag(name='tag2', )
     c1 = Category(name='category1')
