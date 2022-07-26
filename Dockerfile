@@ -11,13 +11,15 @@ WORKDIR /home/blog
 
 COPY requirements.txt requirements
 # RUN python -m venv venv
-RUN pip install SQLAlchemy
+# RUN pip install SQLAlchemy
 RUN pip install -r requirements
 
 COPY app app
+COPY Dockerfile Dockerfile
 COPY blog.py blog.py
 COPY boot.sh boot.sh
-COPY Devlog.md Devlog.md 
+COPY Devlog.md Devlog.md
+COPY migrations migrations
 
 EXPOSE 5000 
 # ENTRYPOINT [ "./boot.sh" ]

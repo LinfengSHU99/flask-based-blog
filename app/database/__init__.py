@@ -35,7 +35,7 @@ class Category(db.Model):
     __tablename__ = 'category'
     id = db.Column(db.Integer, primary_key=True)
     articles = db.relationship('Article', back_populates='category', lazy='immediate', )
-    name = db.Column(db.String(64))
+    name = db.Column(db.String(64), unique=True)
 
 class Password(db.Model):
     __tablename__ = 'password'

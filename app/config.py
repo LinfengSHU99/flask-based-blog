@@ -33,7 +33,7 @@ well as a set of helper classes and functions that are used'
     @staticmethod
     def init_app(app):
         app.config['SECRET_KEY'] = '?'
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir + '/data', 'data.sqlite')
         app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
         app.jinja_env.globals['str'] = str
@@ -41,6 +41,7 @@ well as a set of helper classes and functions that are used'
         app.jinja_env.globals['len'] = len
         app.jinja_env.globals['list'] = list
         app.jinja_env.globals['range'] = range
+        app.jinja_env.globals['eval'] = eval
         app.jinja_env.globals['ceil'] = ceil
         app.jinja_env.globals['base_url'] = base_url
         app.jinja_env.globals['monthOfYear'] = monthOfYear

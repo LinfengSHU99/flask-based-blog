@@ -39,7 +39,6 @@ if os.getenv('PRODUCTION', 0) != '1':
     a2.category = c1
     a3.category = c2
     a5.category = c1
-    print(list(c1.articles))
     a1.tags.append(t1)
     a2.tags.append(t2)
     a3.tags.append(t1)

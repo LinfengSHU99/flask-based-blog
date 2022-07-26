@@ -109,17 +109,49 @@ def modify(id):
     if session.get('state') != 'registered':
         return redirect(url_for('main.route_to_login'))
     form = MarkDownForm()
+
     if id is not None:
+
+        if form.validate_on_submit():
+            tags = form.tag.data.split(',')
+            title = form.title.data
+            subtitle = form.title.data
+            category = form.category.data
+            content = form.pagedown.data
+            a = Article.query.filter_by(id=id).first()
+            a.title = title
+            a.subtitle = subtitle
+            a.content = content
+            c_list = Category.query.filter_by(name=category).all()
+            if a.category.name != category:
+                if len(c_list) == 0:
+                    c = Category(name=category)
+                else:
+                    c = c_list[0]
+                a.category = c
+                db.session.add_all([c])
+            for tag in tags:
+                if tag not in [tag_.name for tag_ in a.tags]:
+                    if tag not in [t.name for t in current_app.tag_list]:
+                        t = Tag(name=tag)
+                        db.session.add(t)
+                    else:
+                        t = [tag_ for tag_ in current_app.tag_list if tag_.name == tag][0]
+                    a.tags.append(t)
+            db.session.commit()
+            init_tag_category_archive()
+            return redirect(url_for('main.route_to_admin'))
         article = Article.query.filter_by(id=id).first()
         tag_list = []
         for tag in article.tags:
             tag_list.append(tag.name)
         tags = ','.join(tag_list)
         # each element in the list is a line of content.
+        print(article.content)
         content_list = article.content.split('\n')
         return render_template('post.html', form=form, title=article.title, subtitle=article.subtitle,
                                category=article.category.name,
-                               content_list=content_list, tags=tags)
+                               content=article.content, tags=tags)
 
 
 @main.route(base_url + '/admin/post', methods=['POST', 'GET'])
@@ -140,12 +172,13 @@ def post():
         category = form.category.data
         a = Article(title=title, content=content, post_time=datetime.datetime.now(), subtitle=subtitle, )
         for tag in tags:
-            if tag not in [t.name for t in current_app.tag_list]:
-                t = Tag(name=tag)
-            else:
-                t = [tag_ for tag_ in current_app.tag_list if tag_.name == tag][0]
-            a.tags.append(t)
-            db.session.add(t)
+            if tag != '':
+                if tag not in [t.name for t in current_app.tag_list]:
+                    t = Tag(name=tag)
+                else:
+                    t = [tag_ for tag_ in current_app.tag_list if tag_.name == tag][0]
+                a.tags.append(t)
+                db.session.add(t)
         if category not in [c.name for c in current_app.category_list]:
             c = Category(name=category)
         else:
@@ -181,13 +214,13 @@ def route_to_login():
     return render_template('login.html', form=form)
 
 
-@main.route('/in')
-def in_():
-    print(session.get('pw'))
-    if request.cookies.get('state') == 'login':
-
-        return 'you are in!'
-    elif session.get('pw') == '666':
-        return '666！'
-    else:
-        return 'fail!'
+# @main.route('/in')
+# def in_():
+#     print(session.get('pw'))
+#     if request.cookies.get('state') == 'login':
+#
+#         return 'you are in!'
+#     elif session.get('pw') == '666':
+#         return '666！'
+#     else:
+#         return 'fail!'

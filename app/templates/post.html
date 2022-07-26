@@ -74,8 +74,6 @@
         let textarea = document.getElementsByName('pagedown')[0];
         textarea.innerText = "";
         {#textarea = textarea.item(0)#}
-        {% for line in content_list %}
-        textarea.innerHTML += "{{ line }}" + "\n";
-        {% endfor %}
+        textarea.innerHTML = {{ str(content.split('\n'))|safe }}.join("\n");
     </script>
 {% endblock %}
